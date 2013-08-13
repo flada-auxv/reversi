@@ -1,18 +1,21 @@
 require 'spec_helper'
 
 describe 'Reversi' do
-  describe '#initialize' do
+  describe '.initialize' do
     let(:reversi) { Reversi.new }
+    let(:b) { true }
+    let(:w) { false }
+    let(:n) { nil }
     let(:board) {
       [
-        [nil,nil,nil,nil,nil,nil,nil,nil],
-        [nil,nil,nil,nil,nil,nil,nil,nil],
-        [nil,nil,nil,nil,nil,nil,nil,nil],
-        [nil,nil,nil,true,false,nil,nil,nil],
-        [nil,nil,nil,false,true,nil,nil,nil],
-        [nil,nil,nil,nil,nil,nil,nil,nil],
-        [nil,nil,nil,nil,nil,nil,nil,nil],
-        [nil,nil,nil,nil,nil,nil,nil,nil]
+        [n,n,n,n,n,n,n,n],
+        [n,n,n,n,n,n,n,n],
+        [n,n,n,n,n,n,n,n],
+        [n,n,n,w,b,n,n,n],
+        [n,n,n,b,w,n,n,n],
+        [n,n,n,n,n,n,n,n],
+        [n,n,n,n,n,n,n,n],
+        [n,n,n,n,n,n,n,n]
       ]
     }
 
