@@ -1,8 +1,9 @@
 require 'spec_helper'
 
 describe 'Reversi' do
+  let(:reversi) { Reversi.new }
+
   describe '.initialize' do
-    let(:reversi) { Reversi.new }
     let(:b) { true }
     let(:w) { false }
     let(:n) { nil }
@@ -28,8 +29,6 @@ describe 'Reversi' do
   end
 
   describe '#put_black' do
-    let(:reversi) { Reversi.new }
-
     before do
       reversi.put_black(5, 5)
     end
