@@ -17,4 +17,8 @@ class Reversi
       [n,n,n,n,n,n,n,n]
     ]
   end
+
+  def put_black(x, y)
+    @board[x][y] = true
+  end
 end
