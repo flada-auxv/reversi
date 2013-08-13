@@ -33,15 +33,20 @@ class Reversi
   end
 
   def move_black(x, y)
+    # TODO 入力を受け付けるようになったら直す
+    @turn = true
+
     reverse_candidates = check(x, y)
     reverse!(reverse_candidates)
-    @board[x][y] = true
+    @board[x][y] = @turn
   end
 
   def move_white(x, y)
+    @turn = false
+
     reverse_candidates = check(x, y)
     reverse!(reverse_candidates)
-    @board[x][y] = false
+    @board[x][y] = @turn
   end
 
   def check(x, y)

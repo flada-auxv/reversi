@@ -64,7 +64,7 @@ describe 'Reversi' do
       ]
     }
 
-    context 'ゲームスタート直後の場合' do
+    context 'ゲームスタート直後の黒番の場合' do
       context '横方向に相手の石を挟んだとき' do
         before do
           reversi.move_black(4, 5)
@@ -86,6 +86,58 @@ describe 'Reversi' do
         end
       end
     end
+
+    context 'ゲームスタート直後の白番の場合' do
+      before do
+        reversi.move_black(4, 5)
+
+        # [
+        #   #0 1 2 3 4 5 6 7
+        #   [n,n,n,n,n,n,n,n], #0
+        #   [n,n,n,n,n,n,n,n], #1
+        #   [n,n,n,n,n,n,n,n], #2
+        #   [n,n,n,w,b,n,n,n], #3
+        #   [n,n,n,b,b,b,n,n], #4
+        #   [n,n,n,n,n,n,n,n], #5
+        #   [n,n,n,n,n,n,n,n], #6
+        #   [n,n,n,n,n,n,n,n]  #7
+        # ]
+
+      end
+
+      context '横方向に相手の石を挟んだとき' do
+        before do
+          reversi.move_white(3, 5)
+        end
+
+        specify '挟んだ石がひっくり返されること' do
+
+          expect(reversi.board[3][4]).to eq false
+        end
+      end
+
+      context '縦方向に相手の石を挟んだとき' do
+        before do
+          reversi.move_white(5, 3)
+        end
+
+        specify '挟んだ石がひっくり返されること' do
+          expect(reversi.board[4][3]).to eq false
+        end
+      end
+
+      context '斜め方向に相手の石を挟んだとき' do
+        before do
+          reversi.move_white(5, 5)
+        end
+
+        specify '挟んだ石がひっくり返されること' do
+          expect(reversi.board[4][4]).to eq false
+        end
+      end
+
+    end
+
 
     context '2巡目の場合' do
       before do
