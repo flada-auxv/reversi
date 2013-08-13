@@ -27,9 +27,9 @@ describe 'Reversi' do
     end
   end
 
-  describe '#put_black' do
+  describe '#move_black' do
     before do
-      reversi.put_black(5, 5)
+      reversi.move_black(5, 5)
     end
 
     specify '引数の座標に黒石が置かれること' do
@@ -37,9 +37,9 @@ describe 'Reversi' do
     end
   end
 
-  describe '#put_white' do
+  describe '#move_white' do
     before do
-      reversi.put_white(5, 5)
+      reversi.move_white(5, 5)
     end
 
     specify '引数の座標に白石が置かれること' do
