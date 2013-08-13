@@ -37,4 +37,14 @@ describe 'Reversi' do
       expect(reversi.board[5][5]).to eq true
     end
   end
+
+  describe '#put_white' do
+    before do
+      reversi.put_white(5, 5)
+    end
+
+    specify '引数の座標に白石が置かれること' do
+      expect(reversi.board[5][5]).to eq false
+    end
+  end
 end

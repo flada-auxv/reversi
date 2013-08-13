@@ -21,4 +21,8 @@ class Reversi
   def put_black(x, y)
     @board[x][y] = true
   end
+
+  def put_white(x, y)
+    @board[x][y] = false
+  end
 end
