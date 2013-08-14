@@ -37,11 +37,12 @@ describe 'Reversi' do
 
   describe '#move_white' do
     before do
-      reversi.move_white(4, 5)
+      reversi.move_black(4, 5)
+      reversi.move_white(3, 5)
     end
 
     specify '引数の座標に白石が置かれること' do
-      expect(reversi.board[4][5]).to eq false
+      expect(reversi.board[3][5]).to eq false
     end
   end
 

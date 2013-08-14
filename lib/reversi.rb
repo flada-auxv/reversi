@@ -1,4 +1,6 @@
 class Reversi
+  class IllegalMovementError < StandardError; end
+
   attr_accessor :board, :turn, :reversible_pieces
 
   def initialize
@@ -55,6 +57,8 @@ class Reversi
     @directions.each_with_object([]) do |(dir, (a, b)), candidate_pieces|
       check_direction(x + a, y + b, dir, candidate_pieces)
     end
+
+    raise IllegalMovementError if @reversible_pieces.empty?
   end
 
   private
