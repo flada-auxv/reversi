@@ -1,3 +1,7 @@
+# バグ 隅に向かって挟んでいないのにひっくり返ることがある
+# 機能 打てる手が存在しないときのスキップ
+# 機能 対戦終了後の計測
+
 class Reversi
   class IllegalMovementError < StandardError; end
 
