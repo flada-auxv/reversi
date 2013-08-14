@@ -3,6 +3,19 @@ class Reversi
 
   BOARD_INDEX_RANGE = (0..7)
 
+  DIRECTIONS = {
+    '1' => [-1, -1],
+    '2' => [-1,  0],
+    '3' => [-1, +1],
+    '4' => [ 0, -1],
+  # '5' => [ 0,  0],
+    '6' => [ 0, +1],
+    '7' => [+1, -1],
+    '8' => [+1,  0],
+    '9' => [+1, +1]
+  }
+
+
   attr_accessor :board, :reversible_pieces
 
   def initialize
@@ -21,17 +34,6 @@ class Reversi
       [n,n,n,n,n,n,n,n]
     ]
 
-    @directions = {
-      '1' => [-1, -1],
-      '2' => [-1,  0],
-      '3' => [-1, +1],
-      '4' => [ 0, -1],
-    # '5' => [ 0,  0],
-      '6' => [ 0, +1],
-      '7' => [+1, -1],
-      '8' => [+1,  0],
-      '9' => [+1, +1]
-    }
 
     @turn = [b, w].cycle
 
@@ -70,7 +72,7 @@ class Reversi
    end
 
   def check(x, y)
-    @directions.each_with_object([]) do |(dir, (a, b)), candidate_pieces|
+    DIRECTIONS.each_with_object([]) do |(dir, (a, b)), candidate_pieces|
       check_direction(x + a, y + b, dir, candidate_pieces)
     end
 
@@ -115,7 +117,7 @@ class Reversi
     elsif opponent_piece?(piece)
       candidates << [x, y]
 
-      a, b = @directions[dir]
+      a, b = DIRECTIONS[dir]
       check_direction(x + a, y + b, dir, candidates)
     end
   end
