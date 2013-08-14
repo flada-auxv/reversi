@@ -71,6 +71,33 @@ describe 'Reversi' do
         expect(reversi.current_turn).to eq black
       end
     end
+
+    context '短い手順で全滅するパターン' do
+      let(:completely_black_board) {
+        [
+          #a b c d e f g h
+          #0 1 2 3 4 5 6 7
+          [n,n,n,n,n,n,n,n], #0 1
+          [n,n,n,n,n,n,n,n], #1 2
+          [n,n,n,n,b,n,n,n], #2 3
+          [n,n,n,b,b,b,n,n], #3 4
+          [n,n,b,b,b,b,b,n], #4 5
+          [n,n,n,b,b,b,n,n], #5 6
+          [n,n,n,n,b,n,n,n], #6 7
+          [n,n,n,n,n,n,n,n]  #7 8
+        ]
+      }
+
+      before do
+        %w(f5 d6 c5 f4 e7 f6 g5 e6 e3).each do |coordinate_str|
+          reversi.move(coordinate_str)
+        end
+      end
+
+      specify 'すべての石が黒になっていること' do
+        expect(reversi.board).to eq completely_black_board
+      end
+    end
   end
 
   describe '#check' do
