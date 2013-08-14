@@ -28,6 +28,12 @@ describe 'Reversi' do
     end
   end
 
+  describe '#board' do
+    specify '引数を"e4"として受け取り、その座標の石の情報を返却すること' do
+      expect(reversi.board('e4')).to eq black
+    end
+  end
+
   describe '#move' do
     context 'スタート -> 黒:"f5" の順に入力されたとき' do
       #    a b c d e f g h
@@ -45,7 +51,7 @@ describe 'Reversi' do
       end
 
       specify '"e5"の石がひっくり返り、手番が白に移ること' do
-        expect(reversi.board[4][5]).to eq black
+        expect(reversi.board('e5')).to eq black
         expect(reversi.current_turn).to eq white
       end
     end
@@ -67,7 +73,7 @@ describe 'Reversi' do
       end
 
       specify '"e4"の石がひっくり返り、手番が黒に移ること' do
-        expect(reversi.board[3][4]).to eq white
+        expect(reversi.board('e4')).to eq white
         expect(reversi.current_turn).to eq black
       end
     end

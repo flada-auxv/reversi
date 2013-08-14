@@ -15,7 +15,7 @@ class Reversi
     '9' => [+1, +1]
   }
 
-  attr_accessor :board, :reversible_pieces
+  attr_accessor :reversible_pieces
 
   def initialize
     n = nil
@@ -33,10 +33,16 @@ class Reversi
       [n,n,n,n,n,n,n,n]
     ]
 
-
     @turn = [b, w].cycle
 
     @reversible_pieces = []
+  end
+
+  def board(coordinate_str = nil)
+    return @board unless coordinate_str
+
+    x, y = index_for(coordinate_str)
+    @board[x][y]
   end
 
   def current_turn
