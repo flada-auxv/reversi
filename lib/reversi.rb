@@ -95,18 +95,20 @@ class Reversi
     # p "check_direction x:#{x}, y:#{y}, dir:#{dir}, candidates:#{candidates}, reversible_pieces:#{@reversible_pieces}"
     # p "@turn:#{@turn}"
 
-    if @board[x][y].nil?
+    piece = @board[x][y]
+
+    if piece.nil?
       return if candidates.empty?
 
       candidates.clear
 
-    elsif self_piece?(@board[x][y])
+    elsif self_piece?(piece)
       return if candidates.empty?
 
       @reversible_pieces += candidates
       candidates.clear
 
-    elsif opponent_piece?(@board[x][y])
+    elsif opponent_piece?(piece)
       candidates << [x, y]
 
       a, b = @directions[dir]
