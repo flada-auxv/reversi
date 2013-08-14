@@ -70,7 +70,6 @@ describe 'Reversi' do
         end
 
         specify '挟んだ石がひっくり返されること' do
-
           expect(reversi.board[4][4]).to eq true
         end
       end
@@ -110,8 +109,11 @@ describe 'Reversi' do
         end
 
         specify '挟んだ石がひっくり返されること' do
-
           expect(reversi.board[3][4]).to eq false
+        end
+
+        specify '隣接するが挟めていない石はひっくり返らないこと' do
+          expect(reversi.board[4][5]).to eq true
         end
       end
 
@@ -123,6 +125,10 @@ describe 'Reversi' do
         specify '挟んだ石がひっくり返されること' do
           expect(reversi.board[4][3]).to eq false
         end
+
+        specify '隣接するが挟めていない石はひっくり返らないこと' do
+          expect(reversi.board[4][4]).to eq true
+        end
       end
 
       context '斜め方向に相手の石を挟んだとき' do
@@ -133,10 +139,12 @@ describe 'Reversi' do
         specify '挟んだ石がひっくり返されること' do
           expect(reversi.board[4][4]).to eq false
         end
+
+        specify '隣接するが挟めていない石はひっくり返らないこと' do
+          expect(reversi.board[4][5]).to eq true
+        end
       end
-
     end
-
 
     context '2巡目の場合' do
       before do
@@ -154,6 +162,11 @@ describe 'Reversi' do
         #   [n,n,n,n,n,n,n,n], #6
         #   [n,n,n,n,n,n,n,n]  #7
         # ]
+      end
+
+      context '' do
+        it { reversi.check(1,5).should == [[2, 4]] }
+        it { reversi.check(2,5).should == [[2, 4], [3,4]] }
       end
 
       context '斜め方向に相手の石を挟んだとき' do

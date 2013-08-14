@@ -1,5 +1,5 @@
 class Reversi
-  attr_accessor :board
+  attr_accessor :board, :turn, :reversible_pieces
 
   def initialize
     n = nil
@@ -22,7 +22,7 @@ class Reversi
       '2' => [-1,  0],
       '3' => [-1, +1],
       '4' => [ 0, -1],
-      '5' => [ 0,  0],
+    # '5' => [ 0,  0],
       '6' => [ 0, +1],
       '7' => [+1, -1],
       '8' => [+1,  0],
@@ -30,22 +30,24 @@ class Reversi
     }
 
     @turn = b
+
+    @reversible_pieces = []
   end
 
   def move_black(x, y)
     # TODO 入力を受け付けるようになったら直す
     @turn = true
 
-    reverse_candidates = check(x, y)
-    reverse!(reverse_candidates)
+    check(x, y)
+    reverse!
     @board[x][y] = @turn
   end
 
   def move_white(x, y)
     @turn = false
 
-    reverse_candidates = check(x, y)
-    reverse!(reverse_candidates)
+    check(x, y)
+    reverse!
     @board[x][y] = @turn
   end
 
@@ -62,16 +64,40 @@ class Reversi
     piece != @turn && !piece.nil?
   end
 
-  def check_direction(x, y, dir, candidate_pieces)
-    if opponent_piece?(@board[x][y])
-      candidate_pieces << [x, y]
+  def self_piece?(piece)
+    piece == @turn
+  end
+
+  def check_direction(x, y, dir, candidates)
+    p "check_direction x:#{x}, y:#{y}, dir:#{dir}, candidates:#{candidates}, reversible_pieces:#{@reversible_pieces}"
+    p "@turn:#{@turn}"
+
+    if @board[x][y].nil?
+      return if candidates.empty?
+
+      candidates.clear
+
+    elsif self_piece?(@board[x][y])
+      return if candidates.empty?
+
+      @reversible_pieces += candidates
+      candidates.clear
+
+    elsif opponent_piece?(@board[x][y])
+      candidates << [x, y]
 
       a, b = @directions[dir]
-      check_direction(x + a, y + b, dir, candidate_pieces)
+      check_direction(x + a, y + b, dir, candidates)
     end
   end
 
-  def reverse!(pieces)
-    pieces.each {|x, y| @board[x][y] = @turn }
+  def reverse!
+    pp @board
+    p "reverse! => #{@reversible_pieces}"
+
+    @reversible_pieces.each {|x, y| @board[x][y] = @turn }
+    @reversible_pieces.clear
+
+    pp @board
   end
 end
