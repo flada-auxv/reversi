@@ -1,6 +1,8 @@
 class Reversi
   class IllegalMovementError < StandardError; end
 
+  BOARD_INDEX_RANGE = (0..7)
+
   attr_accessor :board, :reversible_pieces
 
   def initialize
@@ -94,6 +96,8 @@ class Reversi
   def check_direction(x, y, dir, candidates)
     # p "check_direction x:#{x}, y:#{y}, dir:#{dir}, candidates:#{candidates}, reversible_pieces:#{@reversible_pieces}"
     # p "@turn:#{@turn}"
+
+    return unless BOARD_INDEX_RANGE === x && BOARD_INDEX_RANGE === y
 
     piece = @board[x][y]
 
