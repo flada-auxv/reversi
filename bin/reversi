@@ -14,7 +14,13 @@ class ReversiExecuter
   def run
     loop do
       print_board
-      @game.move(read_input)
+
+      begin
+        @game.move(read_input)
+      rescue Reversi::IllegalMovementError
+        help
+        retry
+      end
     end
   end
 
