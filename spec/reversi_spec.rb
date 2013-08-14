@@ -164,11 +164,6 @@ describe 'Reversi' do
         # ]
       end
 
-      context '' do
-        it { reversi.check(1,5).should == [[2, 4]] }
-        it { reversi.check(2,5).should == [[2, 4], [3,4]] }
-      end
-
       context '斜め方向に相手の石を挟んだとき' do
         before do
           reversi.move_black(1, 5)
