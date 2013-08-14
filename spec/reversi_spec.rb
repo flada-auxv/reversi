@@ -2,25 +2,24 @@ require 'spec_helper'
 
 describe 'Reversi' do
   let(:reversi) { Reversi.new }
+  let(:b) { true }
+  let(:w) { false }
+  let(:n) { nil }
+  let(:board) {
+    [
+      #0 1 2 3 4 5 6 7
+      [n,n,n,n,n,n,n,n], #0
+      [n,n,n,n,n,n,n,n], #1
+      [n,n,n,n,n,n,n,n], #2
+      [n,n,n,w,b,n,n,n], #3
+      [n,n,n,b,w,n,n,n], #4
+      [n,n,n,n,n,n,n,n], #5
+      [n,n,n,n,n,n,n,n], #6
+      [n,n,n,n,n,n,n,n]  #7
+    ]
+  }
 
   describe '.initialize' do
-    let(:b) { true }
-    let(:w) { false }
-    let(:n) { nil }
-    let(:board) {
-      [
-        #0 1 2 3 4 5 6 7
-        [n,n,n,n,n,n,n,n], #0
-        [n,n,n,n,n,n,n,n], #1
-        [n,n,n,n,n,n,n,n], #2
-        [n,n,n,w,b,n,n,n], #3
-        [n,n,n,b,w,n,n,n], #4
-        [n,n,n,n,n,n,n,n], #5
-        [n,n,n,n,n,n,n,n], #6
-        [n,n,n,n,n,n,n,n]  #7
-      ]
-    }
-
     specify '黒と白の石が交互に2枚ずつ置かれていること' do
       expect(reversi.board).to eq board
     end
