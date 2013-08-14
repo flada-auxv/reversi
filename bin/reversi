@@ -21,6 +21,8 @@ class ReversiExecuter
         help
         retry
       end
+
+      puts ''
     end
   end
 
@@ -28,6 +30,8 @@ class ReversiExecuter
   private
 
   def read_input
+    print '>> '
+
     until (input = readline.chomp) =~ INPUT_FORMAT
       help
     end
@@ -36,7 +40,7 @@ class ReversiExecuter
   end
 
   def help
-    p 'hi'
+    puts 'そこには石を置く事ができません!!'
   end
 
   def print_board
@@ -53,9 +57,9 @@ class ReversiExecuter
         when nil
           sio << ' '
         when :black
-          sio << 'b'
+          sio << "\e[32mb\e[m"
         when :white
-          sio << 'w'
+          sio << "\e[33mw\e[m"
         end
       end
       sio << "|\n"
