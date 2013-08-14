@@ -5,8 +5,8 @@ class Reversi
 
   def initialize
     n = nil
-    b = true
-    w = false
+    b = :black
+    w = :white
 
     @board = [
       [n,n,n,n,n,n,n,n],
@@ -42,7 +42,7 @@ class Reversi
 
     @board[x][y] = @turn
 
-    @turn = false
+    @turn = :white
   end
 
   def move_white(x, y)
@@ -51,7 +51,7 @@ class Reversi
 
     @board[x][y] = @turn
 
-    @turn = true
+    @turn = :black
    end
 
   def check(x, y)

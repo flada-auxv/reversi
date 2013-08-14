@@ -2,10 +2,10 @@ require 'spec_helper'
 
 describe 'Reversi' do
   let(:reversi) { Reversi.new }
-  let(:b) { true }
-  let(:black) { true }
-  let(:w) { false }
-  let(:white) { false }
+  let(:b) { :black }
+  let(:black) { :black }
+  let(:w) { :white }
+  let(:white) { :white }
   let(:n) { nil }
   let(:board) {
     [
