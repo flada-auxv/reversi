@@ -55,14 +55,14 @@ class Reversi
 
   def move(coordinate_str)
     x, y = index_for(coordinate_str)
-    check(x, y)
+    check_reversible(x, y)
     reverse!
 
     @board[x][y] = current_turn
     turn_change
   end
 
-  def check(x, y)
+  def check_reversible(x, y)
     DIRECTIONS.each_with_object([]) do |(dir, (a, b)), candidates|
       check_direction(x + a, y + b, dir, candidates)
     end

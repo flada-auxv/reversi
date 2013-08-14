@@ -106,10 +106,10 @@ describe 'Reversi' do
     end
   end
 
-  describe '#check' do
+  describe '#check_reversible' do
     context 'ゲームスタート直後のとき' do
       specify '挟んだ石の座標が取得されること' do
-        reversi.check(4, 5)
+        reversi.check_reversible(4, 5)
         expect(reversi.reversible_pieces).to eq [[4, 4]]
       end
     end
@@ -130,7 +130,7 @@ describe 'Reversi' do
       end
 
       specify '挟んだ石の座標が取得されること' do
-        reversi.check(3, 5)
+        reversi.check_reversible(3, 5)
         expect(reversi.reversible_pieces).to eq [[3, 4]]
       end
     end
@@ -153,7 +153,7 @@ describe 'Reversi' do
 
       context '複数の相手の石を挟んだとき' do
         specify '挟んだ石の座標がすべて取得されること' do
-          reversi.check(2, 5)
+          reversi.check_reversible(2, 5)
           expect(reversi.reversible_pieces).to eq [[3, 4], [3, 5]]
         end
       end
