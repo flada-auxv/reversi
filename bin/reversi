@@ -24,6 +24,9 @@ class ReversiExecuter
     end
   end
 
+
+  private
+
   def read_input
     until (input = readline.chomp) =~ INPUT_FORMAT
       help
@@ -60,14 +63,6 @@ class ReversiExecuter
 
     puts sio.string
     puts ''
-  end
-
-  def turn_change
-    if @board.turn
-      @board.turn = false
-    else
-      @board.turn = true
-    end
   end
 end
 
