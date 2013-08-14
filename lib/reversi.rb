@@ -1,7 +1,7 @@
 class Reversi
   class IllegalMovementError < StandardError; end
 
-  attr_accessor :board, :turn, :reversible_pieces
+  attr_accessor :board, :reversible_pieces
 
   def initialize
     n = nil
@@ -31,27 +31,35 @@ class Reversi
       '9' => [+1, +1]
     }
 
-    @turn = b
+    @turn = [b, w].cycle
 
     @reversible_pieces = []
+  end
+
+  def current_turn
+    @turn.peek
+  end
+
+  def turn_change
+    @turn.next
   end
 
   def move_black(x, y)
     check(x, y)
     reverse!
 
-    @board[x][y] = @turn
+    @board[x][y] = current_turn
 
-    @turn = :white
+    turn_change
   end
 
   def move_white(x, y)
     check(x, y)
     reverse!
 
-    @board[x][y] = @turn
+    @board[x][y] = current_turn
 
-    @turn = :black
+    turn_change
    end
 
   def check(x, y)
@@ -66,11 +74,11 @@ class Reversi
 
   # 対戦相手のピースかどうか
   def opponent_piece?(piece)
-    piece != @turn && !piece.nil?
+    piece != current_turn && !piece.nil?
   end
 
   def self_piece?(piece)
-    piece == @turn
+    piece == current_turn
   end
 
   def check_direction(x, y, dir, candidates)
@@ -100,7 +108,7 @@ class Reversi
     # pp @board
     # p "reverse! => #{@reversible_pieces}"
 
-    @reversible_pieces.each {|x, y| @board[x][y] = @turn }
+    @reversible_pieces.each {|x, y| @board[x][y] = current_turn }
     @reversible_pieces.clear
 
     # pp @board

@@ -37,7 +37,7 @@ describe 'Reversi' do
     end
 
     specify '白番に移ること' do
-      expect(reversi.turn).to eq white
+      expect(reversi.current_turn).to eq white
     end
   end
 
@@ -49,6 +49,10 @@ describe 'Reversi' do
 
     specify '引数の座標に白石が置かれること' do
       expect(reversi.board[3][5]).to eq white
+    end
+
+    specify '黒番に移ること' do
+      expect(reversi.current_turn).to eq black
     end
   end
 
