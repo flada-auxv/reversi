@@ -46,23 +46,6 @@ describe 'Reversi' do
   end
 
   describe '#check' do
-    let(:b) { true }
-    let(:w) { false }
-    let(:n) { nil }
-    let(:board) {
-      [
-        #0 1 2 3 4 5 6 7
-        [n,n,n,n,n,n,n,n], #0
-        [n,n,n,n,n,n,n,n], #1
-        [n,n,n,n,n,n,n,n], #2
-        [n,n,n,w,b,n,n,n], #3
-        [n,n,n,b,w,n,n,n], #4
-        [n,n,n,n,n,n,n,n], #5
-        [n,n,n,n,n,n,n,n], #6
-        [n,n,n,n,n,n,n,n]  #7
-      ]
-    }
-
     context 'ゲームスタート直後の黒番の場合' do
       context '横方向に相手の石を挟んだとき' do
         before do
