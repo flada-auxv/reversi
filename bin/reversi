@@ -2,28 +2,36 @@
 
 require_relative '../lib/reversi'
 
-require 'pp'
 require 'stringio'
 
-
 class ReversiExecuter
+  INPUT_FORMAT = /[a-h][1-8]/
+
   def initialize
     @game = Reversi.new
   end
 
   def run
-    print_board
-    @game.move_black(4,5)
-    print_board
-    @game.move_white(3,5)
-    print_board
+    loop do
+      print_board
+      @game.move(read_input)
+    end
+  end
+
+  def read_input
+    until (input = readline.chomp) =~ INPUT_FORMAT
+      help
+    end
+
+    input
+  end
+
+  def help
+    p 'hi'
   end
 
   def print_board
-    # pp @game.board
-
-    turn = @game.turn ? :black : :white
-    puts "turn -> #{turn}"
+    puts "turn -> #{@game.current_turn}"
     puts "------------------"
     puts "  a b c d e f g h"
 
@@ -32,11 +40,12 @@ class ReversiExecuter
       sio << "#{i+1}"
       x_line.each do |y|
         sio << '|'
-        if y.nil?
+        case y
+        when nil
           sio << ' '
-        elsif y
+        when :black
           sio << 'b'
-        else
+        when :white
           sio << 'w'
         end
       end
@@ -47,7 +56,12 @@ class ReversiExecuter
     puts ''
   end
 
-  def next_turn
+  def turn_change
+    if @board.turn
+      @board.turn = false
+    else
+      @board.turn = true
+    end
   end
 end
 

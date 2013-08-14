@@ -27,6 +27,28 @@ describe 'Reversi' do
     end
   end
 
+  describe '#move' do
+    context 'ゲームスタート直後の黒番で、"f5"と入力されたとき' do
+      before do
+        reversi.stub(:move_black)
+        reversi.move('f5')
+      end
+
+      it { reversi.should have_received(:move_black).with(4, 5) }
+    end
+
+    context '黒:"f5", 白:"f4" と続けて入力されたとき' do
+      before do
+        reversi.stub(:move_white)
+        reversi.move('f5')
+        reversi.move('f4')
+      end
+
+      it { reversi.should have_received(:move_white).with(3, 5) }
+    end
+
+  end
+
   describe '#move_black' do
     before do
       reversi.move_black(4, 5)

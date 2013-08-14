@@ -44,6 +44,11 @@ class Reversi
     @turn.next
   end
 
+  def move(coordinate_str)
+    x, y = index_for(coordinate_str)
+    send("move_#{current_turn}", x, y)
+  end
+
   def move_black(x, y)
     check(x, y)
     reverse!
@@ -71,6 +76,11 @@ class Reversi
   end
 
   private
+
+  # 'f5' => [4,5], 'a2' => [1,0]
+  def index_for(coordinate_str)
+    return coordinate_str[1].to_i - 1, coordinate_str[0].ord - 'a'.ord
+  end
 
   # 対戦相手のピースかどうか
   def opponent_piece?(piece)
