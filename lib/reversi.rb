@@ -15,7 +15,6 @@ class Reversi
     '9' => [+1, +1]
   }
 
-
   attr_accessor :board, :reversible_pieces
 
   def initialize
@@ -50,30 +49,16 @@ class Reversi
 
   def move(coordinate_str)
     x, y = index_for(coordinate_str)
-    send("move_#{current_turn}", x, y)
-  end
-
-  def move_black(x, y)
     check(x, y)
     reverse!
 
     @board[x][y] = current_turn
-
     turn_change
   end
-
-  def move_white(x, y)
-    check(x, y)
-    reverse!
-
-    @board[x][y] = current_turn
-
-    turn_change
-   end
 
   def check(x, y)
-    DIRECTIONS.each_with_object([]) do |(dir, (a, b)), candidate_pieces|
-      check_direction(x + a, y + b, dir, candidate_pieces)
+    DIRECTIONS.each_with_object([]) do |(dir, (a, b)), candidates|
+      check_direction(x + a, y + b, dir, candidates)
     end
 
     raise IllegalMovementError if @reversible_pieces.empty?
