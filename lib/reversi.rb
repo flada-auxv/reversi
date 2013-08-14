@@ -58,7 +58,7 @@ class Reversi
     check_reversible(x, y)
     reverse!
 
-    @board[x][y] = current_turn
+    move_current_color_to(x, y)
     turn_change
   end
 
@@ -71,6 +71,10 @@ class Reversi
   end
 
   private
+
+  def move_current_color_to(x, y)
+    @board[x][y] = current_turn
+  end
 
   # 'f5' => [4,5], 'a2' => [1,0]
   def index_for(coordinate_str)
