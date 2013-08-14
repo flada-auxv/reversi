@@ -3,7 +3,9 @@ require 'spec_helper'
 describe 'Reversi' do
   let(:reversi) { Reversi.new }
   let(:b) { true }
+  let(:black) { true }
   let(:w) { false }
+  let(:white) { false }
   let(:n) { nil }
   let(:board) {
     [
@@ -31,7 +33,11 @@ describe 'Reversi' do
     end
 
     specify '引数の座標に黒石が置かれること' do
-      expect(reversi.board[4][5]).to eq true
+      expect(reversi.board[4][5]).to eq black
+    end
+
+    specify '白番に移ること' do
+      expect(reversi.turn).to eq white
     end
   end
 
@@ -42,7 +48,7 @@ describe 'Reversi' do
     end
 
     specify '引数の座標に白石が置かれること' do
-      expect(reversi.board[3][5]).to eq false
+      expect(reversi.board[3][5]).to eq white
     end
   end
 
@@ -54,7 +60,7 @@ describe 'Reversi' do
         end
 
         specify '挟んだ石がひっくり返されること' do
-          expect(reversi.board[4][4]).to eq true
+          expect(reversi.board[4][4]).to eq black
         end
       end
 
@@ -64,7 +70,7 @@ describe 'Reversi' do
         end
 
         specify '挟んだ石がひっくり返されること' do
-          expect(reversi.board[3][3]).to eq true
+          expect(reversi.board[3][3]).to eq black
         end
       end
     end
@@ -93,11 +99,11 @@ describe 'Reversi' do
         end
 
         specify '挟んだ石がひっくり返されること' do
-          expect(reversi.board[3][4]).to eq false
+          expect(reversi.board[3][4]).to eq white
         end
 
         specify '隣接するが挟めていない石はひっくり返らないこと' do
-          expect(reversi.board[4][5]).to eq true
+          expect(reversi.board[4][5]).to eq black
         end
       end
 
@@ -107,11 +113,11 @@ describe 'Reversi' do
         end
 
         specify '挟んだ石がひっくり返されること' do
-          expect(reversi.board[4][3]).to eq false
+          expect(reversi.board[4][3]).to eq white
         end
 
         specify '隣接するが挟めていない石はひっくり返らないこと' do
-          expect(reversi.board[4][4]).to eq true
+          expect(reversi.board[4][4]).to eq black
         end
       end
 
@@ -121,11 +127,11 @@ describe 'Reversi' do
         end
 
         specify '挟んだ石がひっくり返されること' do
-          expect(reversi.board[4][4]).to eq false
+          expect(reversi.board[4][4]).to eq white
         end
 
         specify '隣接するが挟めていない石はひっくり返らないこと' do
-          expect(reversi.board[4][5]).to eq true
+          expect(reversi.board[4][5]).to eq black
         end
       end
     end
@@ -154,7 +160,7 @@ describe 'Reversi' do
         end
 
         specify '挟んだ石がひっくり返されること' do
-          expect(reversi.board[2][4]).to eq true
+          expect(reversi.board[2][4]).to eq black
         end
       end
 
@@ -164,8 +170,8 @@ describe 'Reversi' do
         end
 
         specify 'すべての挟んだ石がひっくり返されること' do
-          expect(reversi.board[2][4]).to eq true
-          expect(reversi.board[3][4]).to eq true
+          expect(reversi.board[2][4]).to eq black
+          expect(reversi.board[3][4]).to eq black
         end
       end
     end

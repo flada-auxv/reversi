@@ -37,21 +37,22 @@ class Reversi
   end
 
   def move_black(x, y)
-    # TODO 入力を受け付けるようになったら直す
-    @turn = true
-
     check(x, y)
     reverse!
+
     @board[x][y] = @turn
+
+    @turn = false
   end
 
   def move_white(x, y)
-    @turn = false
-
     check(x, y)
     reverse!
+
     @board[x][y] = @turn
-  end
+
+    @turn = true
+   end
 
   def check(x, y)
     @directions.each_with_object([]) do |(dir, (a, b)), candidate_pieces|
