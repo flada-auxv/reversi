@@ -76,6 +76,7 @@ class Reversi
     return all_pieces.count(:black), all_pieces.count(:white)
   end
 
+
   private
 
   def move_current_color_to(x, y)
