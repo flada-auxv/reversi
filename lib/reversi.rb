@@ -102,7 +102,7 @@ class Reversi
     # p "check_direction x:#{x}, y:#{y}, dir:#{dir}, candidates:#{candidates}, reversible_pieces:#{@reversible_pieces}"
     # p "@turn:#{@turn}"
 
-    return unless BOARD_INDEX_RANGE === x && BOARD_INDEX_RANGE === y
+    return unless existing_coordinates?(x, y)
 
     piece = @board[x][y]
 
@@ -123,6 +123,10 @@ class Reversi
       a, b = DIRECTIONS[dir]
       check_direction(x + a, y + b, dir, candidates)
     end
+  end
+
+  def existing_coordinates?(x, y)
+    BOARD_INDEX_RANGE === x && BOARD_INDEX_RANGE === y
   end
 
   def reverse!
