@@ -1,5 +1,3 @@
-# バグ 隅に向かって挟んでいないのにひっくり返ることがある
-
 class Reversi
   class IllegalMovementError < StandardError; end
 
@@ -99,7 +97,10 @@ class Reversi
   end
 
   def check_direction(x, y, dir, candidates)
-    return unless existing_coordinates?(x, y)
+    unless existing_coordinates?(x, y)
+      candidates.clear
+      return
+    end
 
     piece = @board[x][y]
 

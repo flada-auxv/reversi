@@ -122,6 +122,50 @@ describe 'Reversi' do
         expect(reversi.board).to eq completely_black_board
       end
     end
+
+    # リグレッションテスト
+    context '隅まで一直線にひっくり返せるとき' do
+      let(:before_board) {
+        [
+          #a b c d e f g h
+          #0 1 2 3 4 5 6 7
+          [n,n,n,n,n,n,n,n], #0 1
+          [n,n,n,n,n,w,w,w], #1 2
+          [n,n,n,n,n,n,w,w], #2 3
+          [n,n,n,w,w,w,b,w], #3 4
+          [n,n,n,b,b,b,b,n], #4 5
+          [n,n,n,n,n,n,n,n], #5 6
+          [n,n,n,n,n,n,n,n], #6 7
+          [n,n,n,n,n,n,n,n]  #7 8
+        ]
+      }
+
+      let(:result_board) {
+        [
+          #a b c d e f g h
+          #0 1 2 3 4 5 6 7
+          [n,n,n,n,n,n,n,n], #0 1
+          [n,n,n,n,n,w,w,w], #1 2
+          [n,n,n,n,n,b,w,w], #2 3
+          [n,n,n,w,b,b,b,w], #3 4
+          [n,n,n,b,b,b,b,n], #4 5
+          [n,n,n,n,n,n,n,n], #5 6
+          [n,n,n,n,n,n,n,n], #6 7
+          [n,n,n,n,n,n,n,n]  #7 8
+        ]
+      }
+
+      before do
+        %w(f5 f4 g3 g4 g5 h4 h3 h2 g2 f2).each do |coordinate_str|
+          reversi.move(coordinate_str)
+        end
+      end
+
+      specify '挟んでいない石 "g3"・"h3" がひっくり返らないこと' do
+        reversi.move('f3')
+        expect(reversi.board).to eq result_board
+      end
+    end
   end
 
   describe '#check_reversible' do
