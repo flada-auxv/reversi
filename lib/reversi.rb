@@ -1,6 +1,4 @@
 # バグ 隅に向かって挟んでいないのにひっくり返ることがある
-# 機能 打てる手が存在しないときのスキップ
-# 機能 対戦終了後の計測
 
 class Reversi
   class IllegalMovementError < StandardError; end
@@ -72,6 +70,12 @@ class Reversi
     end
 
     raise IllegalMovementError if @reversible_pieces.empty?
+  end
+
+  def score
+    all_pieces = @board.flatten
+
+    return all_pieces.count(:black), all_pieces.count(:white)
   end
 
   private

@@ -5,6 +5,10 @@ require_relative '../lib/reversi'
 require 'stringio'
 
 class ReversiExecuter
+
+  class SkipException < StandardError; end
+  class ExitException < StandardError; end
+
   INPUT_FORMAT = /[a-h][1-8]/
 
   def initialize
@@ -16,10 +20,20 @@ class ReversiExecuter
       print_board
 
       begin
-        @game.move(read_input)
+        redo unless input = read_input
+        @game.move(input)
       rescue Reversi::IllegalMovementError
         help
         retry
+      rescue SkipException
+        @game.turn_change
+        puts 'skiped!!'
+        puts ''
+        redo
+      rescue ExitException
+        puts 'exit!!'
+        print_score
+        break
       end
 
       puts ''
@@ -32,7 +46,16 @@ class ReversiExecuter
   def read_input
     print '>> '
 
-    until (input = readline.chomp) =~ INPUT_FORMAT
+    input = readline.chomp
+
+    case input
+    when 'skip'; raise SkipException
+    when 'exit', 'end'; raise ExitException
+    when 'score'
+      input = nil
+      print_score
+    when !INPUT_FORMAT
+      input = nil
       help
     end
 
@@ -41,6 +64,14 @@ class ReversiExecuter
 
   def help
     puts 'そこには石を置く事ができません!!'
+  end
+
+  def print_score
+    black, white = @game.score
+
+    puts "------------------"
+    puts "black:#{black} -- white:#{white}"
+    puts ''
   end
 
   def print_board

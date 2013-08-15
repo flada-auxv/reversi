@@ -28,6 +28,24 @@ describe 'Reversi' do
     end
   end
 
+  describe '#score' do
+    subject { reversi.score }
+
+    context 'スタート直後のとき' do
+      it { should == [2, 2] }
+    end
+
+    context '短い手順で全滅するパターン' do
+      before do
+        %w(f5 d6 c5 f4 e7 f6 g5 e6 e3).each do |coordinate_str|
+          reversi.move(coordinate_str)
+        end
+      end
+
+      it { should == [13, 0] }
+    end
+  end
+
   describe '#board' do
     specify '引数を"e4"として受け取り、その座標の石の情報を返却すること' do
       expect(reversi.board('e4')).to eq black
