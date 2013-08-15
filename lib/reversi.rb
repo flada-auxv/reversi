@@ -99,9 +99,6 @@ class Reversi
   end
 
   def check_direction(x, y, dir, candidates)
-    # p "check_direction x:#{x}, y:#{y}, dir:#{dir}, candidates:#{candidates}, reversible_pieces:#{@reversible_pieces}"
-    # p "@turn:#{@turn}"
-
     return unless existing_coordinates?(x, y)
 
     piece = @board[x][y]
@@ -130,12 +127,7 @@ class Reversi
   end
 
   def reverse!
-    # pp @board
-    # p "reverse! => #{@reversible_pieces}"
-
     @reversible_pieces.each {|x, y| @board[x][y] = current_turn }
     @reversible_pieces.clear
-
-    # pp @board
   end
 end
