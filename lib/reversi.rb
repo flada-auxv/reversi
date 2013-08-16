@@ -110,13 +110,8 @@ class Reversi
     end
 
     case @board[x][y]
-    when nil
-      return if candidates.empty?
-
-      candidates.clear
+    when nil then candidates.clear
     when self_piece?
-      return if candidates.empty?
-
       @reversible_pieces += candidates
       candidates.clear
     when opponent_piece?
