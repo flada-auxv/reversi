@@ -188,9 +188,6 @@ describe 'Reversi' do
         # FIXME Reversi#board をスタブすると上手くいかない
         reversi.instance_variable_set(:@board, halfway_board)
         reversi.turn_change
-
-        reversi.stub(:move_current_color_to)
-        reversi.stub(:reverse!)
       end
 
       specify '例外が発生すること' do
