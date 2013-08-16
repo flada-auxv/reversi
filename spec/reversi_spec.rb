@@ -166,6 +166,14 @@ describe 'Reversi' do
         expect(reversi.board).to eq result_board
       end
     end
+
+    context '既に石が置いてある箇所が入力されたとき' do
+      specify '例外が発生すること' do
+        expect {
+          reversi.move('e4')
+        }.to raise_error
+      end
+    end
   end
 
   describe '#check_reversible' do
