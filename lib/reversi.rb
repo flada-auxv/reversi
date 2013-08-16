@@ -15,8 +15,6 @@ class Reversi
     '9' => [+1, +1]
   }
 
-  attr_accessor :reversible_pieces
-
   def initialize
     n = nil
     b = :black
