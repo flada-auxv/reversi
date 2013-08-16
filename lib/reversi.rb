@@ -56,6 +56,9 @@ class Reversi
   def move(coordinate_str)
     x, y = index_for(coordinate_str)
     check_reversible(x, y)
+
+    raise IllegalMovementError unless valid_move?(x, y)
+
     reverse!
 
     move_current_color_to(x, y)
@@ -66,8 +69,6 @@ class Reversi
     DIRECTIONS.each_with_object([]) do |(dir, (a, b)), candidates|
       check_direction(x + a, y + b, dir, candidates)
     end
-
-    raise IllegalMovementError if @reversible_pieces.empty?
   end
 
   def score
@@ -78,6 +79,11 @@ class Reversi
 
 
   private
+
+  # どちらの石も置かれてない && ひっくり返せる石が一つでもある  => その座標に打てる
+  def valid_move?(x, y)
+    @board[x][y].nil? && !@reversible_pieces.empty?
+  end
 
   def move_current_color_to(x, y)
     @board[x][y] = current_turn

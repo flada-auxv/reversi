@@ -167,10 +167,35 @@ describe 'Reversi' do
       end
     end
 
-    context '既に石が置いてある箇所が入力されたとき' do
+    # リグレッションテスト
+    context '既に相手の石がある かつ そこにもし打てた場合ら挟める石が一つでもある ような箇所に入力されたとき' do
+      let(:halfway_board) {
+        [
+          #a b c d e f g h
+          #0 1 2 3 4 5 6 7
+          [n,n,n,n,n,n,n,n], #0 1
+          [n,n,n,n,n,n,n,n], #1 2
+          [n,n,n,w,n,n,n,n], #2 3
+          [n,n,b,w,b,n,n,n], #3 4
+          [n,n,n,b,b,n,n,n], #4 5
+          [n,n,b,b,b,n,n,n], #5 6
+          [n,n,n,n,n,n,n,n], #6 7
+          [n,n,n,n,n,n,n,n]  #7 8
+        ]
+      }
+
+      before do
+        # FIXME Reversi#board をスタブすると上手くいかない
+        reversi.instance_variable_set(:@board, halfway_board)
+        reversi.turn_change
+
+        reversi.stub(:move_current_color_to)
+        reversi.stub(:reverse!)
+      end
+
       specify '例外が発生すること' do
         expect {
-          reversi.move('e4')
+          reversi.move('d6')
         }.to raise_error
       end
     end
