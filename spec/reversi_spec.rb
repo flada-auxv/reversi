@@ -123,7 +123,7 @@ describe 'Reversi' do
       end
     end
 
-    # リグレッションテスト
+    # @再現テスト
     context '隅まで一直線にひっくり返せるとき' do
       let(:before_board) {
         [
@@ -167,7 +167,7 @@ describe 'Reversi' do
       end
     end
 
-    # リグレッションテスト
+    # @再現テスト
     context '既に相手の石がある かつ そこにもし打てた場合ら挟める石が一つでもある ような箇所に入力されたとき' do
       let(:halfway_board) {
         [

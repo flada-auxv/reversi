@@ -67,7 +67,7 @@ class Reversi
 
   def check_reversible(x, y)
     DIRECTIONS.each_with_object([]) do |(dir, (a, b)), candidates|
-      check_direction(x + a, y + b, dir, candidates)
+      check_for_straight_line(x + a, y + b, dir, candidates)
     end
   end
 
@@ -103,7 +103,7 @@ class Reversi
     piece == current_turn
   end
 
-  def check_direction(x, y, dir, candidates)
+  def check_for_straight_line(x, y, dir, candidates)
     unless existing_coordinates?(x, y)
       candidates.clear
       return
@@ -126,7 +126,7 @@ class Reversi
       candidates << [x, y]
 
       a, b = DIRECTIONS[dir]
-      check_direction(x + a, y + b, dir, candidates)
+      check_for_straight_line(x + a, y + b, dir, candidates)
     end
   end
 
