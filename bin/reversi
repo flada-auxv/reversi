@@ -27,7 +27,7 @@ class ReversiExecuter
         retry
       rescue SkipException
         @game.turn_change
-        puts 'skiped!!'
+        puts 'skipped!!'
         puts ''
         redo
       rescue ExitException
