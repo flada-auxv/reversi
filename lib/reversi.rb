@@ -55,7 +55,7 @@ class Reversi
 
   def move(coordinate_str)
     x, y = index_for(coordinate_str)
-    check_reversible(x, y)
+    @reversible_pieces = check_reversible(x, y)
 
     raise IllegalMovementError unless valid_move?(x, y)
 
@@ -66,9 +66,9 @@ class Reversi
   end
 
   def check_reversible(x, y)
-    DIRECTIONS.each_with_object([]) do |(dir, (a, b)), candidates|
-      check_for_straight_line(x + a, y + b, dir, candidates)
-    end
+    DIRECTIONS.each_with_object([]) { |(dir, (a, b)), res|
+      res << check_for_straight_line(x + a, y + b, dir)
+    }.compact.flatten(1) # XXX ちょっとつらい？
   end
 
   def score
@@ -103,22 +103,16 @@ class Reversi
     ->(piece) { piece == current_turn }
   end
 
-  def check_for_straight_line(x, y, dir, candidates)
-    unless existing_coordinates?(x, y)
-      candidates.clear
-      return
-    end
+  def check_for_straight_line(x, y, dir, candidates = [])
+    return unless existing_coordinates?(x, y)
 
     case @board[x][y]
-    when nil then candidates.clear
+    when nil then return
     when self_piece?
-      @reversible_pieces += candidates
-      candidates.clear
+      candidates.empty? ? nil : candidates
     when opponent_piece?
-      candidates << [x, y]
-
       a, b = DIRECTIONS[dir]
-      check_for_straight_line(x + a, y + b, dir, candidates)
+      check_for_straight_line(x + a, y + b, dir, candidates << [x, y])
     end
   end
 
