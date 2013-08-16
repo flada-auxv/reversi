@@ -95,12 +95,12 @@ class Reversi
   end
 
   # 対戦相手のピースかどうか
-  def opponent_piece?(piece)
-    piece != current_turn && !piece.nil?
+  def opponent_piece?
+    ->(piece) { piece != current_turn && !piece.nil? }
   end
 
-  def self_piece?(piece)
-    piece == current_turn
+  def self_piece?
+    ->(piece) { piece == current_turn }
   end
 
   def check_for_straight_line(x, y, dir, candidates)
@@ -109,20 +109,17 @@ class Reversi
       return
     end
 
-    piece = @board[x][y]
-
-    if piece.nil?
+    case @board[x][y]
+    when nil
       return if candidates.empty?
 
       candidates.clear
-
-    elsif self_piece?(piece)
+    when self_piece?
       return if candidates.empty?
 
       @reversible_pieces += candidates
       candidates.clear
-
-    elsif opponent_piece?(piece)
+    when opponent_piece?
       candidates << [x, y]
 
       a, b = DIRECTIONS[dir]
