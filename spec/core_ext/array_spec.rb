@@ -43,6 +43,13 @@ describe 'Array' do
       it { should == [2, 3] }
     end
 
+    context '要素にnilが含まれる場合' do
+      let(:array) { ['black', 'white', nil, 'black', 'black', 'white'] }
+
+      let(:argument) { 'black' }
+      it { should == [0, 3, 4] }
+    end
+
     context '要素がごちゃ混ぜの場合' do
       let(:array) { ['black', 9, 8, :black, 0, :black, 1, :black] }
 
