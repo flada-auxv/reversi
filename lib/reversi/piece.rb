@@ -22,6 +22,15 @@ module Reversi
       [x, y]
     end
 
+    def reverse
+      @color = case @color
+      when :black
+        :white
+      when :white
+        :black
+      end
+    end
+
     def inspect
       case @color
       when :black then '○'

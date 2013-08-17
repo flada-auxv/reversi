@@ -46,6 +46,12 @@ describe Reversi::Piece do
     end
   end
 
+  describe '#reverse' do
+    before { black_piece.reverse }
+
+    it { black_piece.color == :white }
+  end
+
   describe '#black?' do
     it { black_piece.black?.should be_true }
     it { white_piece.black?.should be_false }
