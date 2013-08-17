@@ -44,12 +44,11 @@ class Reversi
   end
 
   def pieces_coordinate_of(color = :black)
-    res = []
-    @board.each_with_index { |x_line, x|
-      x_line.find_all.with_index { |piece, y|
-        piece == color
-        [x, y]
-      }
+    @board.each_with_index.with_object([]) { |(x_line, x), res|
+      if (y_idx = x_line.find_all_index(color))
+        x_y_idx = [x].product(y_idx)
+        res.push(*x_y_idx)
+      end
     }
   end
 

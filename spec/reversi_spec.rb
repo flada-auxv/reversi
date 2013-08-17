@@ -29,10 +29,37 @@ describe 'Reversi' do
   end
 
   describe '#pieces_coordinate_of' do
+    subject { reversi.pieces_coordinate_of(color) }
 
-    subject { reversi.pieces_coordinate_of(:black) }
+    context 'スタート直後のとき' do
+      let(:color) { :black }
 
-    it { pending 'Array クラスの拡張中'; should == [[3, 4], [4, 3]] }
+      it { should == [[3, 4], [4, 3]] }
+    end
+
+    context '短い手順で全滅するパターン' do
+      let(:color) { :black }
+
+      # [
+      #   #a b c d e f g h
+      #   #0 1 2 3 4 5 6 7
+      #   [n,n,n,n,n,n,n,n], #0 1
+      #   [n,n,n,n,n,n,n,n], #1 2
+      #   [n,n,n,n,b,n,n,n], #2 3
+      #   [n,n,n,b,b,b,n,n], #3 4
+      #   [n,n,b,b,b,b,b,n], #4 5
+      #   [n,n,n,b,b,b,n,n], #5 6
+      #   [n,n,n,n,b,n,n,n], #6 7
+      #   [n,n,n,n,n,n,n,n]  #7 8
+      # ]
+      before do
+        %w(f5 d6 c5 f4 e7 f6 g5 e6 e3).each do |coordinate_str|
+          reversi.move(coordinate_str)
+        end
+      end
+
+      it { should == [[2,4],[3,3],[3,4],[3,5],[4,2],[4,3],[4,4],[4,5],[4,6],[5,3],[5,4],[5,5],[6,4]] }
+    end
   end
 
   describe '#score' do
