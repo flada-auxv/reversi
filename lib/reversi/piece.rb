@@ -4,7 +4,7 @@ module Reversi
 
     attr_accessor :x, :y, :color
 
-    def initialize(x, y, color)
+    def initialize(x = nil, y = nil, color = :none)
       @x = x
       @y = y
       @color = color
@@ -17,6 +17,15 @@ module Reversi
     def coordinates
       [x, y]
     end
+
+    def inspect
+      case @color
+      when :black then '○'
+      when :white then '×'
+      when :none then ' '
+      end
+    end
+
     def ==(other)
       self.color == other
     end
