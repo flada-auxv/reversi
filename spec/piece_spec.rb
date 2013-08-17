@@ -1,12 +1,8 @@
 require 'spec_helper'
 
-describe Piece do
-  let(:reversi) { Reversi.new }
-  let(:black_piece) { Piece.new(3, 4, :black) }
-
-  describe '.initialize' do
-    it { pending('とりあえずReversi本体へ取り込むのはあとで'); reversi.board['e4'].should == black_piece }
-  end
+describe Reversi::Piece do
+  let(:reversi) { Reversi::Game.new }
+  let(:black_piece) { Reversi::Piece.new(3, 4, :black) }
 
   describe '#location' do
     subject { black_piece.location }

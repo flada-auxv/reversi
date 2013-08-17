@@ -12,7 +12,7 @@ class ReversiExecuter
   INPUT_FORMAT = /[a-h][1-8]/
 
   def initialize
-    @game = Reversi.new
+    @game = Reversi::Game.new
   end
 
   def run
@@ -22,7 +22,7 @@ class ReversiExecuter
       begin
         redo unless input = read_input
         @game.move(input)
-      rescue Reversi::IllegalMovementError
+      rescue Reversi::Game::IllegalMovementError
         help
         retry
       rescue SkipException

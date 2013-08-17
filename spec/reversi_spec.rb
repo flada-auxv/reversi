@@ -1,7 +1,7 @@
 require 'spec_helper'
 
-describe 'Reversi' do
-  let(:reversi) { Reversi.new }
+describe 'Reversi::Game' do
+  let(:reversi) { Reversi::Game.new }
   let(:b) { :black }
   let(:black) { :black }
   let(:w) { :white }
@@ -204,7 +204,7 @@ describe 'Reversi' do
       }
 
       before do
-        # FIXME Reversi#board をスタブすると上手くいかない
+        # FIXME Reversi::Game#board をスタブすると上手くいかない
         reversi.instance_variable_set(:@board, halfway_board)
         reversi.turn_change
       end
