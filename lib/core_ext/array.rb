@@ -1,6 +1,8 @@
 class Array
   def find_all_index(val)
-    self.each_with_index.with_object([]) do |(a, i), result|
+    result = []
+
+    self.each_with_index do |a, i|
       _val = val
 
       case a
@@ -12,5 +14,7 @@ class Array
 
       result << i if a == _val
     end
+
+    return (result.empty? ? nil : result)
   end
 end

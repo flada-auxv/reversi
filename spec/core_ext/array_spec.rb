@@ -4,6 +4,13 @@ describe 'Array' do
   describe '#find_all_index' do
     subject { array.find_all_index(argument) }
 
+    context '要素が一つも見つからなかった場合' do
+      let(:array) { %w(black white black black white) }
+      let(:argument) { 'ブラック羽川' }
+
+      it { should == nil }
+    end
+
     context '要素が文字列の配列の場合' do
       let(:array) { %w(black white black black white) }
 
