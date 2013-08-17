@@ -29,8 +29,18 @@ describe Reversi::Piece do
   end
 
   describe '#==' do
-    subject { black_piece == :black }
+    let(:other_black_piece) { Reversi::Piece.new(4, 3, :black) }
 
-    it { should be_true }
+    context '比較対象がReversi::Pieceだったとき' do
+      subject { black_piece == other_black_piece }
+
+      it { should be_true }
+    end
+
+    context '比較対象がReversi::Pieceではないとき' do
+      subject { black_piece == :black }
+
+      it { should be_false }
+    end
   end
 end
