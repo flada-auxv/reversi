@@ -53,7 +53,7 @@ class Reversi
 
   def move(coordinate_str)
     x, y = index_for(coordinate_str)
-    @reversible_pieces = check_reversible(x, y)
+    @reversible_pieces = search_reversible(x, y)
 
     raise IllegalMovementError unless valid_move?(x, y)
 
@@ -63,7 +63,7 @@ class Reversi
     turn_change
   end
 
-  def check_reversible(x, y)
+  def search_reversible(x, y)
     DIRECTIONS.each_with_object([]) { |(dir, (a, b)), res|
       res << check_for_straight_line(x + a, y + b, dir)
     }.compact.flatten(1) # XXX ちょっとつらい？
