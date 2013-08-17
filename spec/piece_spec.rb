@@ -3,6 +3,8 @@ require 'spec_helper'
 describe Reversi::Piece do
   let(:reversi) { Reversi::Game.new }
   let(:black_piece) { Reversi::Piece.new(3, 4, :black) }
+  let(:white_piece) { Reversi::Piece.new(4, 4, :white) }
+  let(:none_piece) { Reversi::Piece.new }
 
   describe '#location' do
     subject { black_piece.location }
@@ -42,5 +44,20 @@ describe Reversi::Piece do
 
       it { should be_false }
     end
+  end
+
+  describe '#black?' do
+    it { black_piece.black?.should be_true }
+    it { white_piece.black?.should be_false }
+  end
+
+  describe '#white?' do
+    it { white_piece.white?.should be_true }
+    it { black_piece.white?.should be_false }
+  end
+
+  describe '#none?' do
+    it { none_piece.none?.should be_true }
+    it { black_piece.none?.should be_false }
   end
 end

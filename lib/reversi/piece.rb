@@ -1,4 +1,5 @@
 # TODO Piece.new('e4') / Piece.new(:black) に対応する
+# XXX color は :black or :white 以外は例外にするくらいはしてもよさそう
 # XXX inspect ○ / × は辛いかも・・・ to_s が適当なのかなぁ
 
 module Reversi
@@ -33,6 +34,12 @@ module Reversi
       return false unless other.respond_to?(:color)
 
       self.color == other.color
+    end
+
+    [:black, :white, :none].each do |color|
+      define_method("#{color}?") do
+        @color == color
+      end
     end
   end
 end
