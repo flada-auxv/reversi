@@ -27,4 +27,10 @@ describe Reversi::Piece do
 
     it { should == 4 }
   end
+
+  describe '#==' do
+    subject { black_piece == :black }
+
+    it { should be_true }
+  end
 end

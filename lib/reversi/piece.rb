@@ -17,5 +17,8 @@ module Reversi
     def coordinates
       [x, y]
     end
+    def ==(other)
+      self.color == other
+    end
   end
 end
