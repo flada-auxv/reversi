@@ -2,11 +2,11 @@ require 'spec_helper'
 
 describe 'Reversi::Game' do
   let(:reversi) { Reversi::Game.new }
-  let(:b) { :black }
-  let(:black) { :black }
-  let(:w) { :white }
-  let(:white) { :white }
-  let(:n) { nil }
+  let(:black) { Reversi::Piece.new(double(:x), double(:y), :black) }
+  let(:b) { black }
+  let(:white) { Reversi::Piece.new(double(:x), double(:y), :white) }
+  let(:w) { white }
+  let(:n) { Reversi::Piece.new }
   let(:board) {
     [
       #a b c d e f g h
@@ -24,17 +24,18 @@ describe 'Reversi::Game' do
 
   describe '.initialize' do
     specify '黒と白の石が交互に2枚ずつ置かれていること' do
-      expect(reversi.board).to eq board
+      pending('board は別クラスにする予定なので後回し')
     end
   end
 
   describe '#pieces_coordinate_of' do
+
     subject { reversi.pieces_coordinate_of(color) }
 
     context 'スタート直後のとき' do
       let(:color) { :black }
 
-      it { should == [[3, 4], [4, 3]] }
+      it { pending('これもBoardクラスに移す予定'); should == [[3, 4], [4, 3]] }
     end
 
     context '短い手順で全滅するパターン' do
@@ -58,7 +59,7 @@ describe 'Reversi::Game' do
         end
       end
 
-      it { should == [[2,4],[3,3],[3,4],[3,5],[4,2],[4,3],[4,4],[4,5],[4,6],[5,3],[5,4],[5,5],[6,4]] }
+      it { pending('これもBoardクラスに移す予定'); should == [[2,4],[3,3],[3,4],[3,5],[4,2],[4,3],[4,4],[4,5],[4,6],[5,3],[5,4],[5,5],[6,4]] }
     end
   end
 
@@ -66,7 +67,7 @@ describe 'Reversi::Game' do
     subject { reversi.score }
 
     context 'スタート直後のとき' do
-      it { should == [2, 2] }
+      it { pending('これもBoardクラスを作ってから見直す'); should == [2, 2] }
     end
 
     context '短い手順で全滅するパターン' do
@@ -76,18 +77,22 @@ describe 'Reversi::Game' do
         end
       end
 
-      it { should == [13, 0] }
+      it { pending('これもBoardクラスを作ってから見直す'); should == [13, 0] }
     end
   end
 
   describe '#board' do
+    let(:e4_black) { Reversi::Piece.new(3, 4, :black) }
+
     specify '引数を"e4"として受け取り、その座標の石の情報を返却すること' do
-      expect(reversi.board('e4')).to eq black
+      expect(reversi.board('e4')).to eq e4_black
     end
   end
 
   describe '#move' do
     context 'スタート -> 黒:"f5" の順に入力されたとき' do
+      let(:e5_black) { Reversi::Piece.new(4, 4, :black) }
+
       #    a b c d e f g h
       #   #0 1 2 3 4 5 6 7
       #   [n,n,n,n,n,n,n,n], #0 1
@@ -103,12 +108,14 @@ describe 'Reversi::Game' do
       end
 
       specify '"e5"の石がひっくり返り、手番が白に移ること' do
-        expect(reversi.board('e5')).to eq black
-        expect(reversi.current_turn).to eq white
+        expect(reversi.board('e5')).to eq e5_black
+        expect(reversi.current_turn).to eq :white
       end
     end
 
     context 'スタート -> 黒:"f5" -> 白:"f4" の順に入力されたとき' do
+      let(:e4_white) { Reversi::Piece.new(3, 4, :white) }
+
       #    a b c d e f g h
       #   #0 1 2 3 4 5 6 7
       #   [n,n,n,n,n,n,n,n], #0 1
@@ -125,8 +132,8 @@ describe 'Reversi::Game' do
       end
 
       specify '"e4"の石がひっくり返り、手番が黒に移ること' do
-        expect(reversi.board('e4')).to eq white
-        expect(reversi.current_turn).to eq black
+        expect(reversi.board('e4')).to eq e4_white
+        expect(reversi.current_turn).to eq :black
       end
     end
 

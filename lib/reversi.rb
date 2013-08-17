@@ -1,8 +1,13 @@
+require_relative 'reversi/piece'
+
 module Reversi
   class Game
     class IllegalMovementError < StandardError; end
 
+    BOARD_SIZE = 8
     BOARD_INDEX_RANGE = (0..7)
+
+    PIECES_COORDINATES_OF_START = {white: [[3,3], [4,4]], black: [[3,4], [4,3]]}
 
     DIRECTIONS = {
       '1' => [-1, -1],
@@ -17,24 +22,30 @@ module Reversi
     }
 
     def initialize
-      n = nil
-      b = :black
-      w = :white
+      @board = board_initialize
 
-      @board = [
-        [n,n,n,n,n,n,n,n],
-        [n,n,n,n,n,n,n,n],
-        [n,n,n,n,n,n,n,n],
-        [n,n,n,w,b,n,n,n],
-        [n,n,n,b,w,n,n,n],
-        [n,n,n,n,n,n,n,n],
-        [n,n,n,n,n,n,n,n],
-        [n,n,n,n,n,n,n,n]
-      ]
-
-      @turn = [b, w].cycle
+      @turn = [:black, :white].cycle
 
       @reversible_pieces = []
+    end
+
+    # XXX board もクラスにまとめても良いかも
+    def board_initialize
+      non_piece_board = Array.new(BOARD_SIZE, []).map { Array.new(BOARD_SIZE) }
+      non_piece_board.map.with_index { |x_line, x|
+        x_line.map.with_index { |_, y|
+          color = case [x, y]
+          when *PIECES_COORDINATES_OF_START[:white]
+            :white
+          when *PIECES_COORDINATES_OF_START[:black]
+            :black
+          else
+            :none
+          end
+
+          Reversi::Piece.new(x, y, color)
+        }
+      }
     end
 
     def board(coordinate_str = nil)
@@ -90,11 +101,11 @@ module Reversi
 
     # どちらの石も置かれてない && ひっくり返せる石が一つでもある  => その座標に打てる
     def valid_move?(x, y)
-      @board[x][y].nil? && !@reversible_pieces.empty?
+      @board[x][y].none? && !@reversible_pieces.empty?
     end
 
     def move_current_color_to(x, y)
-      @board[x][y] = current_turn
+      @board[x][y] = Reversi::Piece.new(x, y, current_turn)
     end
 
     # 'f5' => [4,5], 'a2' => [1,0]
@@ -102,23 +113,14 @@ module Reversi
       return coordinate_str[1].to_i - 1, coordinate_str[0].ord - 'a'.ord
     end
 
-    # 対戦相手のピースかどうか
-    def opponent_piece?
-      ->(piece) { piece != current_turn && !piece.nil? }
-    end
-
-    def self_piece?
-      ->(piece) { piece == current_turn }
-    end
-
     def check_for_straight_line(x, y, dir, candidates = [])
       return unless existing_coordinates?(x, y)
 
-      case @board[x][y]
-      when nil then return
-      when self_piece?
+      case @board[x][y].color
+      when :none then return
+      when current_turn
         candidates.empty? ? nil : candidates
-      when opponent_piece?
+      else
         a, b = DIRECTIONS[dir]
         check_for_straight_line(x + a, y + b, dir, candidates << [x, y])
       end
@@ -129,7 +131,7 @@ module Reversi
     end
 
     def reverse!
-      @reversible_pieces.each {|x, y| @board[x][y] = current_turn }
+      @reversible_pieces.each {|x, y| @board[x][y].reverse }
       @reversible_pieces.clear
     end
   end
