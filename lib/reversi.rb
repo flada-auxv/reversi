@@ -43,6 +43,16 @@ class Reversi
     @board[x][y]
   end
 
+  def pieces_coordinate_of(color = :black)
+    res = []
+    @board.each_with_index { |x_line, x|
+      x_line.find_all.with_index { |piece, y|
+        piece == color
+        [x, y]
+      }
+    }
+  end
+
   def current_turn
     @turn.peek
   end

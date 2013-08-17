@@ -28,6 +28,13 @@ describe 'Reversi' do
     end
   end
 
+  describe '#pieces_coordinate_of' do
+
+    subject { reversi.pieces_coordinate_of(:black) }
+
+    it { pending 'Array クラスの拡張中'; should == [[3, 4], [4, 3]] }
+  end
+
   describe '#score' do
     subject { reversi.score }
 
