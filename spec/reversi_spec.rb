@@ -159,21 +159,6 @@ describe 'Reversi' do
 
     # @再現テスト
     context '隅まで一直線にひっくり返せるとき' do
-      let(:before_board) {
-        [
-          #a b c d e f g h
-          #0 1 2 3 4 5 6 7
-          [n,n,n,n,n,n,n,n], #0 1
-          [n,n,n,n,n,w,w,w], #1 2
-          [n,n,n,n,n,n,w,w], #2 3
-          [n,n,n,w,w,w,b,w], #3 4
-          [n,n,n,b,b,b,b,n], #4 5
-          [n,n,n,n,n,n,n,n], #5 6
-          [n,n,n,n,n,n,n,n], #6 7
-          [n,n,n,n,n,n,n,n]  #7 8
-        ]
-      }
-
       let(:result_board) {
         [
           #a b c d e f g h
