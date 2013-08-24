@@ -66,6 +66,22 @@ describe Reversi::Piece do
     end
   end
 
+  describe '#put' do
+    context '石の無いマスだったとき' do
+      specify '引数の色の石が置かれ、返り値はその色であること' do
+        none_piece.put(:black).should == :black
+        none_piece.color.should == :black
+      end
+    end
+
+    context '既に石が置いてあるマスだったとき' do
+      specify '石の色は変わらず、nilを返すこと' do
+        black_piece.put(:white).should == nil
+        black_piece.color.should == :black
+      end
+    end
+  end
+
   describe '#black?' do
     it { black_piece.black?.should be_true }
     it { white_piece.black?.should be_false }

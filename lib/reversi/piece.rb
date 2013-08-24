@@ -23,6 +23,12 @@ module Reversi
       [x, y]
     end
 
+    def put(color)
+      return nil unless none?
+
+      @color = color
+    end
+
     def reverse
       @color = case @color
       when :black; :white
