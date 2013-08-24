@@ -28,8 +28,22 @@ module Reversi
     }
 
     class << self
-      def existing_coordinates?(x, y)
+      def coordinates_for(location)
+        return location[1].to_i - 1, location[0].ord - Y_LINE_CHAR_BASE
+      end
+
+      def existing_location?(location)
+        x, y = coordinates_for(location)
         BOARD_INDEX_RANGE === x && BOARD_INDEX_RANGE === y
+      end
+
+      def next_location_for(location, dir)
+        return nil unless DIRECTIONS.include?(dir)
+
+        x, y = coordinates_for(location)
+        a, b = DIRECTIONS[dir]
+
+        sprintf('%s%s', ((y + b) + Y_LINE_CHAR_BASE).chr, (x + a) + 1)
       end
     end
 
@@ -50,9 +64,8 @@ module Reversi
       }
     end
 
-    def [](coordinates_str)
-      x, y = index_for(coordinates_str)
-
+    def [](location)
+      x, y = Board.coordinates_for(location)
       @board[x][y]
     end
 
@@ -84,10 +97,6 @@ module Reversi
     end
 
     private
-
-    def index_for(coordinates_str)
-      return coordinates_str[1].to_i - 1, coordinates_str[0].ord - Y_LINE_CHAR_BASE
-    end
 
     def ==(other)
       @board == other
