@@ -66,13 +66,14 @@ module Reversi
 
       @board.each_with_index do |x_line, i|
         sio << "#{i+1}"
-        x_line.each do |y|
+        x_line.each do |piece|
           sio << '|'
-          if y.none?
+          case piece.color
+          when :none
             sio << ' '
-          elsif y.black?
+          when :black
             sio << "\e[32mb\e[m"
-          elsif y.white?
+          when :white
             sio << "\e[33mw\e[m"
           end
         end
