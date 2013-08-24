@@ -4,17 +4,7 @@ describe Reversi::Piece do
   let(:reversi) { Reversi::Game.new }
   let(:black_piece) { Reversi::Piece.new(3, 4, :black) }
   let(:white_piece) { Reversi::Piece.new(4, 4, :white) }
-  let(:none_piece) { Reversi::Piece.new(3, 5) }
-
-  describe '.initialize' do
-    context 'ボードに存在しない座標で作成されたとき' do
-      it do
-        expect {
-          Reversi::Piece.new(0, 9)
-        }.to raise_error
-      end
-    end
-  end
+  let(:none_piece) { Reversi::Piece.new }
 
   describe '#location' do
     subject { black_piece.location }

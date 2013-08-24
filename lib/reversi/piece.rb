@@ -2,7 +2,6 @@
 # XXX inspect ○ / × は辛いかも・・・ to_s が適当なのかなぁ
 
 module Reversi
-  class IllegalCoordinatesError < StandardError; end
   class UnReversiblePieceError < StandardError; end
 
   class Piece
@@ -10,12 +9,10 @@ module Reversi
 
     attr_accessor :x, :y, :color
 
-    def initialize(x, y, color = :none)
+    def initialize(x = nil, y = nil, color = :none)
       @x = x
       @y = y
       @color = color
-
-      check_coordinates!
     end
 
     def location
@@ -51,14 +48,6 @@ module Reversi
     [:black, :white, :none].each do |color|
       define_method("#{color}?") do
         @color == color
-      end
-    end
-
-    private
-
-    def check_coordinates!
-      unless Reversi::Game::BOARD_INDEX_RANGE === x && Reversi::Game::BOARD_INDEX_RANGE === y
-        raise IllegalCoordinatesError
       end
     end
   end
