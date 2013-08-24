@@ -59,6 +59,27 @@ module Reversi
       {black: all_pieces.count(&:black?), white: all_pieces.count(&:white?)}
     end
 
+    def to_s
+      sio = StringIO.new
+
+      @board.each_with_index do |x_line, i|
+        sio << "#{i+1}"
+        x_line.each do |y|
+          sio << '|'
+          if y.none?
+            sio << ' '
+          elsif y.black?
+            sio << "\e[32mb\e[m"
+          elsif y.white?
+            sio << "\e[33mw\e[m"
+          end
+        end
+        sio << "|\n"
+      end
+
+      sio.string
+    end
+
     private
 
     def index_for(coordinates_str)
