@@ -2,7 +2,7 @@ module Reversi
   class UnReversiblePieceError < StandardError; end
 
   class Piece
-    attr_accessor :x, :y, :color
+    attr_reader :x, :y, :color
 
     def initialize(x = nil, y = nil, color = :none)
       @x = x
