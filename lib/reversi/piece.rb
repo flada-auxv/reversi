@@ -11,11 +11,11 @@ module Reversi
     end
 
     def location
-      sprintf('%s%s', (Reversi::Board::Y_LINE_CHAR_BASE + y).chr, x + 1)
+      sprintf('%s%s', (Reversi::Board::Y_LINE_CHAR_BASE + @y).chr, @x + 1)
     end
 
     def coordinates
-      [x, y]
+      [@x, @y]
     end
 
     def put(color)
