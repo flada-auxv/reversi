@@ -1,13 +1,9 @@
 require_relative 'reversi/piece'
+require_relative 'reversi/board'
 
 module Reversi
   class Game
     class IllegalMovementError < StandardError; end
-
-    BOARD_SIZE = 8
-    BOARD_INDEX_RANGE = (0..7)
-
-    PIECES_COORDINATES_OF_START = {white: [[3,3], [4,4]], black: [[3,4], [4,3]]}
 
     DIRECTIONS = {
       '1' => [-1, -1],
@@ -22,39 +18,20 @@ module Reversi
     }
 
     def initialize
-      @board = board_initialize
+      @board = Reversi::Board.new
 
       @turn = [:black, :white].cycle
 
       @reversible_pieces = []
     end
 
-    # XXX board もクラスにまとめても良いかも
-    def board_initialize
-      non_piece_board = Array.new(BOARD_SIZE, []).map { Array.new(BOARD_SIZE) }
-      non_piece_board.map.with_index { |x_line, x|
-        x_line.map.with_index { |_, y|
-          color = case [x, y]
-          when *PIECES_COORDINATES_OF_START[:white]
-            :white
-          when *PIECES_COORDINATES_OF_START[:black]
-            :black
-          else
-            :none
-          end
+    def board(coordinates_str = nil)
+      return @board unless coordinates_str
 
-          Reversi::Piece.new(x, y, color)
-        }
-      }
+      @board[coordinates_str]
     end
 
-    def board(coordinate_str = nil)
-      return @board unless coordinate_str
-
-      x, y = index_for(coordinate_str)
-      @board[x][y]
-    end
-
+    # TODO Boardへ？
     def pieces_coordinate_of(color = :black)
       @board.each_with_index.with_object([]) { |(x_line, x), res|
         if (y_idx = x_line.find_all_index(color))
@@ -64,7 +41,7 @@ module Reversi
       }
     end
 
-    def current_turn
+    def current_turn_color
       @turn.peek
     end
 
@@ -72,40 +49,33 @@ module Reversi
       @turn.next
     end
 
-    def move(coordinate_str)
-      x, y = index_for(coordinate_str)
-      @reversible_pieces = search_reversible(x, y)
+    def move(coordinates_str)
+      @reversible_pieces = search_reversible(coordinates_str)
 
-      raise IllegalMovementError unless valid_move?(x, y)
+      raise IllegalMovementError unless valid_move?(coordinates_str)
 
       reverse!
 
-      move_current_color_to(x, y)
+      move_current_color_to(coordinates_str)
       turn_change
     end
 
-    def search_reversible(x, y)
+    def search_reversible(coordinates_str)
+      x, y = index_for(coordinates_str)
       DIRECTIONS.each_with_object([]) { |(dir, (a, b)), res|
         res << check_for_straight_line(x + a, y + b, dir)
       }.compact.flatten(1) # XXX ちょっとつらい？
     end
 
-    def score
-      all_pieces = @board.flatten
-
-      return all_pieces.count(:black), all_pieces.count(:white)
-    end
-
-
     private
 
     # どちらの石も置かれてない && ひっくり返せる石が一つでもある  => その座標に打てる
-    def valid_move?(x, y)
-      @board[x][y].none? && !@reversible_pieces.empty?
+    def valid_move?(coordinates_str)
+      @board[coordinates_str].none? && !@reversible_pieces.empty?
     end
 
-    def move_current_color_to(x, y)
-      @board[x][y] = Reversi::Piece.new(x, y, current_turn)
+    def move_current_color_to(coordinates_str)
+      @board[coordinates_str].put(current_turn_color)
     end
 
     # 'f5' => [4,5], 'a2' => [1,0]
@@ -114,11 +84,11 @@ module Reversi
     end
 
     def check_for_straight_line(x, y, dir, candidates = [])
-      return unless existing_coordinates?(x, y)
+      return unless Reversi::Board.existing_coordinates?(x, y)
 
-      case @board[x][y].color
+      case @board.board[x][y].color
       when :none then return
-      when current_turn
+      when current_turn_color
         candidates.empty? ? nil : candidates
       else
         a, b = DIRECTIONS[dir]
@@ -126,12 +96,8 @@ module Reversi
       end
     end
 
-    def existing_coordinates?(x, y)
-      BOARD_INDEX_RANGE === x && BOARD_INDEX_RANGE === y
-    end
-
     def reverse!
-      @reversible_pieces.each {|x, y| @board[x][y].reverse }
+      @reversible_pieces.each {|x, y| @board.board[x][y].reverse }
       @reversible_pieces.clear
     end
   end
