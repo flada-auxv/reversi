@@ -1,3 +1,5 @@
+# TODO @board.board を何とかしたい 'a1' と 0, 0 のアクセスを統一する必要がある
+
 require_relative 'reversi/piece'
 require_relative 'reversi/board'
 

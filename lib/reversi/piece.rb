@@ -1,6 +1,3 @@
-# TODO Piece.new('e4') / Piece.new(:black) に対応する
-# XXX inspect ○ / × は辛いかも・・・ to_s が適当なのかなぁ
-
 module Reversi
   class UnReversiblePieceError < StandardError; end
 
