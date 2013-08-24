@@ -20,21 +20,9 @@ describe 'Reversi::Game' do
     context '短い手順で全滅するパターン' do
       let(:color) { :black }
 
-      # [
-      #   #a b c d e f g h
-      #   #0 1 2 3 4 5 6 7
-      #   [n,n,n,n,n,n,n,n], #0 1
-      #   [n,n,n,n,n,n,n,n], #1 2
-      #   [n,n,n,n,b,n,n,n], #2 3
-      #   [n,n,n,b,b,b,n,n], #3 4
-      #   [n,n,b,b,b,b,b,n], #4 5
-      #   [n,n,n,b,b,b,n,n], #5 6
-      #   [n,n,n,n,b,n,n,n], #6 7
-      #   [n,n,n,n,n,n,n,n]  #7 8
-      # ]
       before do
-        %w(f5 d6 c5 f4 e7 f6 g5 e6 e3).each do |coordinate_str|
-          reversi.move(coordinate_str)
+        %w(f5 d6 c5 f4 e7 f6 g5 e6 e3).each do |location|
+          reversi.move(location)
         end
       end
 
@@ -46,16 +34,15 @@ describe 'Reversi::Game' do
     context 'スタート -> 黒:"f5" の順に入力されたとき' do
       let(:e5_black) { Reversi::Piece.new(4, 4, :black) }
 
-      #    a b c d e f g h
-      #   #0 1 2 3 4 5 6 7
-      #   [n,n,n,n,n,n,n,n], #0 1
-      #   [n,n,n,n,n,n,n,n], #1 2
-      #   [n,n,n,n,n,n,n,n], #2 3
-      #   [n,n,n,w,b,n,n,n], #3 4
-      #   [n,n,n,b,b,b,n,n], #4 5
-      #   [n,n,n,n,n,n,n,n], #5 6
-      #   [n,n,n,n,n,n,n,n], #6 7
-      #   [n,n,n,n,n,n,n,n]  #7 8
+      #   a b c d e f g h
+      # 1| | | | | | | | |
+      # 2| | | | | | | | |
+      # 3| | | | | | | | |
+      # 4| | | |w|b| | | |
+      # 5| | | |b|b|b| | |
+      # 6| | | | | | | | |
+      # 7| | | | | | | | |
+      # 8| | | | | | | | |
       before do
         reversi.move('f5')
       end
@@ -69,16 +56,15 @@ describe 'Reversi::Game' do
     context 'スタート -> 黒:"f5" -> 白:"f4" の順に入力されたとき' do
       let(:e4_white) { Reversi::Piece.new(3, 4, :white) }
 
-      #    a b c d e f g h
-      #   #0 1 2 3 4 5 6 7
-      #   [n,n,n,n,n,n,n,n], #0 1
-      #   [n,n,n,n,n,n,n,n], #1 2
-      #   [n,n,n,n,n,n,n,n], #2 3
-      #   [n,n,n,w,b,n,n,n], #3 4
-      #   [n,n,n,b,b,b,n,n], #4 5
-      #   [n,n,n,n,n,n,n,n], #5 6
-      #   [n,n,n,n,n,n,n,n], #6 7
-      #   [n,n,n,n,n,n,n,n]  #7 8
+      #   a b c d e f g h
+      # 1| | | | | | | | |
+      # 2| | | | | | | | |
+      # 3| | | | | | | | |
+      # 4| | | |w|b| | | |
+      # 5| | | |b|b|b| | |
+      # 6| | | | | | | | |
+      # 7| | | | | | | | |
+      # 8| | | | | | | | |
       before do
         reversi.move('f5')
         reversi.move('f4')
@@ -95,8 +81,8 @@ describe 'Reversi::Game' do
       let(:black_location) { %w(e3 d4 e4 f4 c5 d5 e5 f5 g5 d6 e6 f6 e7) }
 
       before do
-        %w(f5 d6 c5 f4 e7 f6 g5 e6 e3).each do |coordinate_str|
-          reversi.move(coordinate_str)
+        %w(f5 d6 c5 f4 e7 f6 g5 e6 e3).each do |location|
+          reversi.move(location)
         end
       end
 
@@ -132,8 +118,8 @@ describe 'Reversi::Game' do
       # 7| | | | | | | | |
       # 8| | | | | | | | |
       before do
-        %w(f5 f4 g3 g4 g5 h4 h3 h2 g2 f2).each do |coordinate_str|
-          reversi.move(coordinate_str)
+        %w(f5 f4 g3 g4 g5 h4 h3 h2 g2 f2).each do |location|
+          reversi.move(location)
         end
       end
 
@@ -158,16 +144,15 @@ describe 'Reversi::Game' do
     context 'スタート -> 黒:"f5" の順に入力されたとき' do
       let(:e4_black) { Reversi::Piece.new(3, 4, :black) }
 
-      #    a b c d e f g h
-      #   #0 1 2 3 4 5 6 7
-      #   [n,n,n,n,n,n,n,n], #0 1
-      #   [n,n,n,n,n,n,n,n], #1 2
-      #   [n,n,n,n,n,n,n,n], #2 3
-      #   [n,n,n,w,b,n,n,n], #3 4
-      #   [n,n,n,b,b,b,n,n], #4 5
-      #   [n,n,n,n,n,n,n,n], #5 6
-      #   [n,n,n,n,n,n,n,n], #6 7
-      #   [n,n,n,n,n,n,n,n]  #7 8
+      #   a b c d e f g h
+      # 1| | | | | | | | |
+      # 2| | | | | | | | |
+      # 3| | | | | | | | |
+      # 4| | | |w|b| | | |
+      # 5| | | |b|b|b| | |
+      # 6| | | | | | | | |
+      # 7| | | | | | | | |
+      # 8| | | | | | | | |
       before do
         reversi.move('f5')
       end
@@ -181,16 +166,15 @@ describe 'Reversi::Game' do
       let(:e4_white) { Reversi::Piece.new(3, 4, :white) }
       let(:f4_white) { Reversi::Piece.new(3, 5, :white) }
 
-      #    a b c d e f g h
-      #   #0 1 2 3 4 5 6 7
-      #   [n,n,n,n,n,n,n,n], #0 1
-      #   [n,n,n,n,n,n,n,n], #1 2
-      #   [n,n,n,n,n,n,n,n], #2 3
-      #   [n,n,n,w,w,w,n,n], #3 4
-      #   [n,n,n,b,b,b,n,n], #4 5
-      #   [n,n,n,n,n,n,n,n], #5 6
-      #   [n,n,n,n,n,n,n,n], #6 7
-      #   [n,n,n,n,n,n,n,n]  #7 8
+      #   a b c d e f g h
+      # 1| | | | | | | | |
+      # 2| | | | | | | | |
+      # 3| | | | | | | | |
+      # 4| | | |w|w|w| | |
+      # 5| | | |b|b|b| | |
+      # 6| | | | | | | | |
+      # 7| | | | | | | | |
+      # 8| | | | | | | | |
       before do
         reversi.move('f5')
         reversi.move('f4')
