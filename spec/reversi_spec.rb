@@ -157,12 +157,16 @@ describe 'Reversi::Game' do
 
   describe '#search_reversible' do
     context 'ゲームスタート直後のとき' do
-      specify '挟んだ石の座標が取得されること' do
-        expect(reversi.search_reversible('f5')).to eq [[4, 4]]
+      let(:e5_white) { Reversi::Piece.new(4, 4, :white) }
+
+      specify '挟んだ石が取得されること' do
+        expect(reversi.search_reversible('f5')).to eq [e5_white]
       end
     end
 
     context 'スタート -> 黒:"f5" の順に入力されたとき' do
+      let(:e4_black) { Reversi::Piece.new(3, 4, :black) }
+
       #    a b c d e f g h
       #   #0 1 2 3 4 5 6 7
       #   [n,n,n,n,n,n,n,n], #0 1
@@ -177,12 +181,15 @@ describe 'Reversi::Game' do
         reversi.move('f5')
       end
 
-      specify '挟んだ石の座標が取得されること' do
-        expect(reversi.search_reversible('f4')).to eq [[3, 4]]
+      specify '挟んだ石が取得されること' do
+        expect(reversi.search_reversible('f4')).to eq [e4_black]
       end
     end
 
     context 'スタート -> 黒:"f5" -> 白:"f4" の順に入力されたとき' do
+      let(:e4_white) { Reversi::Piece.new(3, 4, :white) }
+      let(:f4_white) { Reversi::Piece.new(3, 5, :white) }
+
       #    a b c d e f g h
       #   #0 1 2 3 4 5 6 7
       #   [n,n,n,n,n,n,n,n], #0 1
@@ -199,8 +206,8 @@ describe 'Reversi::Game' do
       end
 
       context '複数の相手の石を挟んだとき' do
-        specify '挟んだ石の座標がすべて取得されること' do
-          expect(reversi.search_reversible('f3')).to eq [[3, 4], [3, 5]]
+        specify '挟んだ石がすべて取得されること' do
+          expect(reversi.search_reversible('f3')).to eq [e4_white, f4_white]
         end
       end
     end

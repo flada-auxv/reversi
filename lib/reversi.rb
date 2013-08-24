@@ -15,10 +15,10 @@ module Reversi
       @reversible_pieces = []
     end
 
-    def board(coordinates_str = nil)
-      return @board unless coordinates_str
+    def board(location = nil)
+      return @board unless location
 
-      @board[coordinates_str]
+      @board[location]
     end
 
     def board_to_s
@@ -47,51 +47,46 @@ module Reversi
       @turn.next
     end
 
-    def move(coordinates_str)
-      @reversible_pieces = search_reversible(coordinates_str)
+    def move(location)
+      @reversible_pieces = search_reversible(location)
 
-      raise IllegalMovementError unless valid_move?(coordinates_str)
+      raise IllegalMovementError unless valid_move?(location)
 
       reverse!
+      @board[location].put(current_turn_color)
 
-      @board[coordinates_str].put(current_turn_color)
       turn_change
     end
 
-    def search_reversible(coordinates_str)
-      x, y = index_for(coordinates_str)
+    def search_reversible(location)
+      x, y = Reversi::Board.coordinates_for(location)
+
       Reversi::Board::DIRECTIONS.each_with_object([]) { |(dir, (a, b)), res|
-        res << check_for_straight_line(x + a, y + b, dir)
+        res << check_for_straight_line(Reversi::Board.next_location_for(location, dir), dir)
       }.compact.flatten(1) # XXX ちょっとつらい？
     end
 
     private
 
     # どちらの石も置かれてない && ひっくり返せる石が一つでもある  => その座標に打てる
-    def valid_move?(coordinates_str)
-      @board[coordinates_str].none? && !@reversible_pieces.empty?
+    def valid_move?(location)
+      @board[location].none? && !@reversible_pieces.empty?
     end
 
-    # 'f5' => [4,5], 'a2' => [1,0]
-    def index_for(coordinate_str)
-      return coordinate_str[1].to_i - 1, coordinate_str[0].ord - 'a'.ord
-    end
+    def check_for_straight_line(location, dir, candidates = [])
+      return unless Reversi::Board.existing_location?(location)
 
-    def check_for_straight_line(x, y, dir, candidates = [])
-      return unless Reversi::Board.existing_coordinates?(x, y)
-
-      case @board.board[x][y].color
+      case @board[location].color
       when :none then return
       when current_turn_color
         candidates.empty? ? nil : candidates
       else
-        a, b = Reversi::Board::DIRECTIONS[dir]
-        check_for_straight_line(x + a, y + b, dir, candidates << [x, y])
+        check_for_straight_line(Reversi::Board.next_location_for(location, dir), dir, candidates << @board[location])
       end
     end
 
     def reverse!
-      @reversible_pieces.each {|x, y| @board.board[x][y].reverse }
+      @reversible_pieces.map(&:reverse)
       @reversible_pieces.clear
     end
   end
