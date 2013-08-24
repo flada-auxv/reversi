@@ -91,20 +91,8 @@ describe 'Reversi::Game' do
     end
 
     context '短い手順で全滅するパターン' do
-      let(:completely_black_board) {
-        [
-          #a b c d e f g h
-          #0 1 2 3 4 5 6 7
-          [n,n,n,n,n,n,n,n], #0 1
-          [n,n,n,n,n,n,n,n], #1 2
-          [n,n,n,n,b,n,n,n], #2 3
-          [n,n,n,b,b,b,n,n], #3 4
-          [n,n,b,b,b,b,b,n], #4 5
-          [n,n,n,b,b,b,n,n], #5 6
-          [n,n,n,n,b,n,n,n], #6 7
-          [n,n,n,n,n,n,n,n]  #7 8
-        ]
-      }
+      let(:all_location) { ('a'..'h').to_a.product((1..8).to_a).map(&:join) }
+      let(:black_location) { %w(e3 d4 e4 f4 c5 d5 e5 f5 g5 d6 e6 f6 e7) }
 
       before do
         %w(f5 d6 c5 f4 e7 f6 g5 e6 e3).each do |coordinate_str|
@@ -113,8 +101,22 @@ describe 'Reversi::Game' do
       end
 
       specify 'すべての石が黒になっていること' do
-        pending('ちょっと疲れた・・・')
-        expect(reversi.board).to eq completely_black_board
+        #   a b c d e f g h
+        # 1| | | | | | | | |
+        # 2| | | | | | | | |
+        # 3| | | | |b| | | |
+        # 4| | | |b|b|b| | |
+        # 5| | |b|b|b|b|b| |
+        # 6| | | |b|b|b| | |
+        # 7| | | | |b| | | |
+        # 8| | | | | | | | |
+        black_location.each do |location|
+          reversi.board[location].should be_black
+        end
+
+        (all_location - black_location).each do |location|
+          reversi.board[location].should be_none
+        end
       end
     end
 
@@ -144,7 +146,7 @@ describe 'Reversi::Game' do
     end
 
     # @再現テスト
-    context '既に相手の石がある かつ そこにもし打てた場合ら挟める石が一つでもある ような箇所に入力されたとき' do
+    context '既に相手の石がある かつ そこにもし打てた場合に挟める石が一つでもある ような箇所に入力されたとき' do
       specify '例外が発生すること' do
         pending('moveを使ってテストの準備を書きなおさないと')
 
