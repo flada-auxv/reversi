@@ -5,8 +5,6 @@ module Reversi
   class UnReversiblePieceError < StandardError; end
 
   class Piece
-    Y_LINE_CHAR_BASE = 'a'.ord
-
     attr_accessor :x, :y, :color
 
     def initialize(x = nil, y = nil, color = :none)
@@ -16,7 +14,7 @@ module Reversi
     end
 
     def location
-      sprintf('%s%s', (Y_LINE_CHAR_BASE + y).chr, x + 1)
+      sprintf('%s%s', (Reversi::Board::Y_LINE_CHAR_BASE + y).chr, x + 1)
     end
 
     def coordinates

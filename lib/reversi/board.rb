@@ -7,6 +7,8 @@ module Reversi
     BOARD_SIZE = 8
     BOARD_INDEX_RANGE = (0..7)
 
+    Y_LINE_CHAR_BASE = 'a'.ord
+
     PIECE_COORDINATES_WHEN_STARTED = {
       white: [[3,3], [4,4]],
       black: [[3,4], [4,3]]
@@ -83,9 +85,8 @@ module Reversi
     private
 
     def index_for(coordinates_str)
-      return coordinates_str[1].to_i - 1, coordinates_str[0].ord - 'a'.ord
+      return coordinates_str[1].to_i - 1, coordinates_str[0].ord - Y_LINE_CHAR_BASE
     end
-
 
     def ==(other)
       @board == other
