@@ -54,7 +54,7 @@ module Reversi
 
       reverse!
 
-      move_current_color_to(coordinates_str)
+      @board[coordinates_str].put(current_turn_color)
       turn_change
     end
 
@@ -70,10 +70,6 @@ module Reversi
     # どちらの石も置かれてない && ひっくり返せる石が一つでもある  => その座標に打てる
     def valid_move?(coordinates_str)
       @board[coordinates_str].none? && !@reversible_pieces.empty?
-    end
-
-    def move_current_color_to(coordinates_str)
-      @board[coordinates_str].put(current_turn_color)
     end
 
     # 'f5' => [4,5], 'a2' => [1,0]
