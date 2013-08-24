@@ -96,8 +96,6 @@ module Reversi
       sio.string
     end
 
-    private
-
     def ==(other)
       @board == other
     end
