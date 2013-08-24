@@ -144,17 +144,6 @@ describe 'Reversi::Game' do
         reversi.board['h3'].should be_white
       end
     end
-
-    # @再現テスト
-    context '既に相手の石がある かつ そこにもし打てた場合に挟める石が一つでもある ような箇所に入力されたとき' do
-      specify '例外が発生すること' do
-        pending('moveを使ってテストの準備を書きなおさないと')
-
-        expect {
-          reversi.move('d6')
-        }.to raise_error
-      end
-    end
   end
 
   describe '#search_reversible' do
