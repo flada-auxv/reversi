@@ -1,9 +1,10 @@
 # TODO Piece.new('e4') / Piece.new(:black) に対応する
-# XXX color は :black or :white 以外は例外にするくらいはしてもよさそう
 # XXX inspect ○ / × は辛いかも・・・ to_s が適当なのかなぁ
 
 module Reversi
   class IllegalCoordinatesError < StandardError; end
+  class UnReversiblePieceError < StandardError; end
+
   class Piece
     Y_LINE_CHAR_BASE = 'a'.ord
 
@@ -27,10 +28,9 @@ module Reversi
 
     def reverse
       @color = case @color
-      when :black
-        :white
-      when :white
-        :black
+      when :black; :white
+      when :white; :black
+      when :none; raise UnReversiblePieceError
       end
     end
 

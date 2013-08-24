@@ -57,9 +57,23 @@ describe Reversi::Piece do
   end
 
   describe '#reverse' do
-    before { black_piece.reverse }
+    context '黒石のマスだったとき' do
+      subject { black_piece.color }
 
-    it { black_piece.color == :white }
+      before do
+        black_piece.reverse
+      end
+
+      it { should == :white }
+    end
+
+    context 'どちらの石も置かれていないマスだったとき' do
+      it do
+        expect {
+          none_piece.reverse
+        }.to raise_error
+      end
+    end
   end
 
   describe '#black?' do
