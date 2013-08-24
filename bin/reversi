@@ -67,36 +67,17 @@ class ReversiExecuter
   end
 
   def print_score
-    black, white = @game.score
-
     puts "------------------"
-    puts "black:#{black} -- white:#{white}"
+    puts "black:#{@game.score_of(:black)} -- white:#{@game.score_of(:white)}"
     puts ''
   end
 
   def print_board
-    puts "turn -> #{@game.current_turn}"
+    puts "turn -> #{@game.current_turn_color}"
     puts "------------------"
     puts "  a b c d e f g h"
 
-    sio = StringIO.new
-    @game.board.each_with_index do |x_line, i|
-      sio << "#{i+1}"
-      x_line.each do |y|
-        sio << '|'
-        case y
-        when nil
-          sio << ' '
-        when :black
-          sio << "\e[32mb\e[m"
-        when :white
-          sio << "\e[33mw\e[m"
-        end
-      end
-      sio << "|\n"
-    end
-
-    puts sio.string
+    puts @game.board_to_s
     puts ''
   end
 end

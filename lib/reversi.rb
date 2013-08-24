@@ -19,6 +19,14 @@ module Reversi
       @board[coordinates_str]
     end
 
+    def board_to_s
+      @board.to_s
+    end
+
+    def score_of(color)
+      @board.score[color]
+    end
+
     # TODO Boardへ？
     def pieces_coordinate_of(color = :black)
       @board.each_with_index.with_object([]) { |(x_line, x), res|
