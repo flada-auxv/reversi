@@ -52,6 +52,8 @@ class ReversiExecuter
     when 'score'
       input = nil
       print_score
+    when ''
+      input = nil
     when !INPUT_FORMAT
       input = nil
       help
