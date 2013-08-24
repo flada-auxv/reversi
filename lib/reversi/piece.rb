@@ -28,18 +28,19 @@ module Reversi
     end
 
     def reverse
-      @color = case @color
-      when :black; :white
-      when :white; :black
-      when :none; raise UnReversiblePieceError
+      raise UnReversiblePieceError if none?
+
+      @color = case
+        when black? then :white
+        when white? then :black
       end
     end
 
     def inspect
-      case @color
-      when :black then '○'
-      when :white then '×'
-      when :none then ' '
+      case
+      when black? then '○'
+      when white? then '×'
+      when none? then ' '
       end
     end
 
