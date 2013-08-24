@@ -5,18 +5,6 @@ module Reversi
   class Game
     class IllegalMovementError < StandardError; end
 
-    DIRECTIONS = {
-      '1' => [-1, -1],
-      '2' => [-1,  0],
-      '3' => [-1, +1],
-      '4' => [ 0, -1],
-    # '5' => [ 0,  0],
-      '6' => [ 0, +1],
-      '7' => [+1, -1],
-      '8' => [+1,  0],
-      '9' => [+1, +1]
-    }
-
     def initialize
       @board = Reversi::Board.new
 
@@ -62,7 +50,7 @@ module Reversi
 
     def search_reversible(coordinates_str)
       x, y = index_for(coordinates_str)
-      DIRECTIONS.each_with_object([]) { |(dir, (a, b)), res|
+      Reversi::Board::DIRECTIONS.each_with_object([]) { |(dir, (a, b)), res|
         res << check_for_straight_line(x + a, y + b, dir)
       }.compact.flatten(1) # XXX ちょっとつらい？
     end
@@ -91,7 +79,7 @@ module Reversi
       when current_turn_color
         candidates.empty? ? nil : candidates
       else
-        a, b = DIRECTIONS[dir]
+        a, b = Reversi::Board::DIRECTIONS[dir]
         check_for_straight_line(x + a, y + b, dir, candidates << [x, y])
       end
     end
