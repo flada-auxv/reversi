@@ -39,9 +39,9 @@ module Reversi
         x_line.map.with_index { |_, y|
 
           color = case [x, y]
-          when *PIECE_COORDINATES_WHEN_STARTED[:white]; :white
-          when *PIECE_COORDINATES_WHEN_STARTED[:black]; :black
-          else :none
+            when *PIECE_COORDINATES_WHEN_STARTED[:white]; :white
+            when *PIECE_COORDINATES_WHEN_STARTED[:black]; :black
+            else :none
           end
 
           Reversi::Piece.new(x, y, color)
