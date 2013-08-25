@@ -104,4 +104,73 @@ describe Reversi::Board do
     it { board.next_piece_for(board['a1'], '1').should be_nil }
     it { board.next_piece_for(board['h8'], '9').should be_nil }
   end
+
+  describe '#search_movable_pieces_for' do
+    # NOTE Piece#== が @color しか見ていないので #location の結果を比較している
+
+    context 'スタート直後のとき' do
+      #   a b c d e f g h
+      # 1| | | | | | | | |
+      # 2| | | | | | | | |
+      # 3| | | |○| | | | |
+      # 4| | |○|w|b| | | |
+      # 5| | | |b|w|○| | |
+      # 6| | | | |○| | | |
+      # 7| | | | | | | | |
+      # 8| | | | | | | | |
+      let(:result) {
+        %w(d3 c4 f5 e6).map {|loc|
+          Reversi::Piece.new(*Reversi::Board.coordinates_for(loc), :non).location
+        }
+      }
+
+      it { game.board.search_movable_pieces_for(:black).map(&:location).should =~ result }
+    end
+
+    context 'スタート -> 黒:"f5" の順に入力されたとき' do
+      #   a b c d e f g h
+      # 1| | | | | | | | |
+      # 2| | | | | | | | |
+      # 3| | | | | | | | |
+      # 4| | | |w|b|○| | |
+      # 5| | | |b|b|b| | |
+      # 6| | | |○| |○| | |
+      # 7| | | | | | | | |
+      # 8| | | | | | | | |
+      before do
+        game.move('f5')
+      end
+
+      let(:result) {
+        %w(f4 d6 f6).map {|loc|
+          Reversi::Piece.new(*Reversi::Board.coordinates_for(loc), :non).location
+        }
+      }
+
+      it { game.board.search_movable_pieces_for(:white).map(&:location).should =~ result }
+    end
+
+    context 'スタート -> 黒:"f5" -> 白:"f4" -> 黒:"e3" の順に入力されたとき' do
+      # NOTE 内部実装的に同じピースが複数回入力できるとして選択されるとき
+
+      let(:result) { %w(d2 f2 d6 f6) }
+
+      #   a b c d e f g h
+      # 1| | | | | | | | |
+      # 2| | | |○| |○| | |
+      # 3| | | | |b| | | |
+      # 4| | | |w|b|w| | |
+      # 5| | | |b|b|b| | |
+      # 6| | | |○| |○| | |
+      # 7| | | | | | | | |
+      # 8| | | | | | | | |
+      before do
+        %w(f5 f4 e3).each do |loc|
+          game.move(loc)
+        end
+      end
+
+      it { game.board.search_movable_pieces_for(:white).map(&:location).should =~ result }
+    end
+  end
 end

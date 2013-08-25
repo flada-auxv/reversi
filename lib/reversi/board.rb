@@ -112,5 +112,28 @@ module Reversi
 
       @board[x][y]
     end
+
+    def search_movable_pieces_for(color)
+      all_pieces_of(color).map.with_object([]) {|piece, res|
+        DIRECTIONS.keys.each do |dir|
+          next unless (next_piece = next_piece_for(piece, dir))
+          res << search_for_straight_line(next_piece, color, dir)
+        end
+      }.compact.uniq
+    end
+
+    private
+
+    def search_for_straight_line(piece, current_color, dir, candidates = [])
+      case piece.color
+      when :none
+        candidates.empty? ? nil : piece
+      when current_color
+        nil
+      else
+        return nil unless (next_piece = next_piece_for(piece, dir))
+        search_for_straight_line(next_piece, current_color, dir, candidates << piece)
+      end
+    end
   end
 end
