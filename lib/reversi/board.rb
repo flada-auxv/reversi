@@ -99,5 +99,9 @@ module Reversi
     def ==(other)
       @board == other
     end
+
+    def pieces_coordinate_of(color = :black)
+      @board.flatten.find_all(&"#{color}?".to_sym)
+    end
   end
 end

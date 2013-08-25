@@ -63,4 +63,26 @@ describe Reversi::Board do
     it { Reversi::Board.next_location_for('d4', '5',).should be_nil }
     it { Reversi::Board.next_location_for('d4', '10').should be_nil }
   end
+
+  describe '#pieces_coordinate_of' do
+    subject { game.board.pieces_coordinate_of(color) }
+
+    context 'スタート直後のとき' do
+      let(:color) { :black }
+
+      it { should == [[3, 4], [4, 3]] }
+    end
+
+    context '短い手順で全滅するパターン' do
+      let(:color) { :black }
+
+      before do
+        %w(f5 d6 c5 f4 e7 f6 g5 e6 e3).each do |location|
+          game.move(location)
+        end
+      end
+
+      it { should == [[2,4],[3,3],[3,4],[3,5],[4,2],[4,3],[4,4],[4,5],[4,6],[5,3],[5,4],[5,5],[6,4]] }
+    end
+  end
 end
