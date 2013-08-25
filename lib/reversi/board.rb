@@ -41,9 +41,9 @@ module Reversi
         return nil unless DIRECTIONS.include?(dir)
 
         x, y = coordinates_for(location)
-        a, b = DIRECTIONS[dir]
+        _x, _y = DIRECTIONS[dir]
 
-        sprintf('%s%s', ((y + b) + Y_LINE_CHAR_BASE).chr, (x + a) + 1)
+        sprintf('%s%s', ((y + _y) + Y_LINE_CHAR_BASE).chr, (x + _x) + 1)
       end
     end
 
