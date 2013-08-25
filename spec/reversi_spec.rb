@@ -7,29 +7,6 @@ describe 'Reversi::Game' do
     it { reversi.current_turn_color.should == :black }
   end
 
-  describe '#pieces_coordinate_of' do
-
-    subject { reversi.pieces_coordinate_of(color) }
-
-    context 'スタート直後のとき' do
-      let(:color) { :black }
-
-      it { pending('これもBoardクラスに移す予定'); should == [[3, 4], [4, 3]] }
-    end
-
-    context '短い手順で全滅するパターン' do
-      let(:color) { :black }
-
-      before do
-        %w(f5 d6 c5 f4 e7 f6 g5 e6 e3).each do |location|
-          reversi.move(location)
-        end
-      end
-
-      it { pending('これもBoardクラスに移す予定'); should == [[2,4],[3,3],[3,4],[3,5],[4,2],[4,3],[4,4],[4,5],[4,6],[5,3],[5,4],[5,5],[6,4]] }
-    end
-  end
-
   describe '#move' do
     context 'スタート -> 黒:"f5" の順に入力されたとき' do
       let(:e5_black) { Reversi::Piece.new(4, 4, :black) }
