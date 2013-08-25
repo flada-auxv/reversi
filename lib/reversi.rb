@@ -36,19 +36,21 @@ module Reversi
     end
 
     def move(location)
-      @reversible_pieces = search_reversible(location)
+      piece = @board[location]
+      @reversible_pieces = search_reversible(piece)
 
       raise IllegalMovementError unless valid_move?(location)
 
       reverse!
-      @board[location].put(current_turn_color)
+      piece.put(current_turn_color)
 
       turn_change
     end
 
-    def search_reversible(location)
+    def search_reversible(piece)
       Reversi::Board::DIRECTIONS.keys.each_with_object([]) { |dir, res|
-        res << check_for_straight_line(Reversi::Board.next_location_for(location, dir), dir)
+        next unless (next_piece = @board.next_piece_for(piece, dir))
+        res << check_for_straight_line(next_piece, dir)
       }.compact.flatten(1) # XXX ちょっとつらい？
     end
 
@@ -59,15 +61,16 @@ module Reversi
       @board[location].none? && !@reversible_pieces.empty?
     end
 
-    def check_for_straight_line(location, dir, candidates = [])
-      return unless Reversi::Board.existing_location?(location)
+    def check_for_straight_line(piece, dir, candidates = [])
+      # return unless Reversi::Board.existing_location?(location)
 
-      case @board[location].color
+      case piece.color
       when :none then return
       when current_turn_color
         candidates.empty? ? nil : candidates
       else
-        check_for_straight_line(Reversi::Board.next_location_for(location, dir), dir, candidates << @board[location])
+        return nil unless (next_piece = @board.next_piece_for(piece, dir))
+        check_for_straight_line(next_piece, dir, candidates << piece)
       end
     end
 
