@@ -100,7 +100,7 @@ module Reversi
       @board == other
     end
 
-    def pieces_coordinate_of(color = :black)
+    def all_pieces_of(color = :black)
       @board.flatten.find_all(&"#{color}?".to_sym)
     end
   end

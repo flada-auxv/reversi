@@ -64,8 +64,8 @@ describe Reversi::Board do
     it { Reversi::Board.next_location_for('d4', '10').should be_nil }
   end
 
-  describe '#pieces_coordinate_of' do
-    subject { game.board.pieces_coordinate_of(color) }
+  describe '#all_pieces_of' do
+    subject { game.board.all_pieces_of(color) }
 
     context 'スタート直後のとき' do
       let(:color) { :black }
