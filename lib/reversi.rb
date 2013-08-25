@@ -39,7 +39,7 @@ module Reversi
       piece = @board[location]
       @reversible_pieces = search_reversible(piece)
 
-      raise IllegalMovementError unless valid_move?(location)
+      raise IllegalMovementError unless valid_move?(piece)
 
       reverse!
       piece.put(current_turn_color)
@@ -57,8 +57,8 @@ module Reversi
     private
 
     # どちらの石も置かれてない && ひっくり返せる石が一つでもある  => その座標に打てる
-    def valid_move?(location)
-      @board[location].none? && !@reversible_pieces.empty?
+    def valid_move?(piece)
+      piece.none? && !@reversible_pieces.empty?
     end
 
     def check_for_straight_line(piece, dir, candidates = [])
