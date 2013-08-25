@@ -103,5 +103,12 @@ module Reversi
     def all_pieces_of(color = :black)
       @board.flatten.find_all(&"#{color}?".to_sym)
     end
+
+    def next_piece_for(piece, dir)
+      x, y = Board.coordinates_for(piece.location)
+      _x , _y = DIRECTIONS[dir]
+
+      @board[x + _x][y + _y]
+    end
   end
 end

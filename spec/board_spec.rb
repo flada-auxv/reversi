@@ -95,4 +95,9 @@ describe Reversi::Board do
       it { should == result }
     end
   end
+
+  describe '#next_piece_for' do
+    it { board.next_piece_for(ul, '6').should == ur }
+    it { board.next_piece_for(ll, '3').should == ur }
+  end
 end
