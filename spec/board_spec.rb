@@ -97,7 +97,11 @@ describe Reversi::Board do
   end
 
   describe '#next_piece_for' do
-    it { board.next_piece_for(ul, '6').should == ur }
-    it { board.next_piece_for(ll, '3').should == ur }
+    # NOTE Piece#== が @color しか見ていないので #location の結果を比較している
+    it { board.next_piece_for(ul, '6').location.should == ur.location }
+    it { board.next_piece_for(ll, '3').location.should == ur.location }
+
+    it { board.next_piece_for(board['a1'], '1').should be_nil }
+    it { board.next_piece_for(board['h8'], '9').should be_nil }
   end
 end

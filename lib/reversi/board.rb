@@ -108,7 +108,9 @@ module Reversi
       x, y = Board.coordinates_for(piece.location)
       _x , _y = DIRECTIONS[dir]
 
-      @board[x + _x][y + _y]
+      return nil unless BOARD_INDEX_RANGE === (x += _x) && BOARD_INDEX_RANGE === (y += _y)
+
+      @board[x][y]
     end
   end
 end
