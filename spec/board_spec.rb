@@ -69,12 +69,22 @@ describe Reversi::Board do
 
     context 'スタート直後のとき' do
       let(:color) { :black }
+      let(:result) {
+        %w(d4 e5).map {|loc|
+          Reversi::Piece.new(*Reversi::Board.coordinates_for(loc), :black)
+        }
+      }
 
-      it { should == [[3, 4], [4, 3]] }
+      it { should == result }
     end
 
     context '短い手順で全滅するパターン' do
       let(:color) { :black }
+      let(:result) {
+        %w(e3 d4 e4 f4 c5 d5 e5 f5 g5 d6 e6 f6 e7).map {|loc|
+          Reversi::Piece.new(*Reversi::Board.coordinates_for(loc), :black)
+        }
+      }
 
       before do
         %w(f5 d6 c5 f4 e7 f6 g5 e6 e3).each do |location|
@@ -82,7 +92,7 @@ describe Reversi::Board do
         end
       end
 
-      it { should == [[2,4],[3,3],[3,4],[3,5],[4,2],[4,3],[4,4],[4,5],[4,6],[5,3],[5,4],[5,5],[6,4]] }
+      it { should == result }
     end
   end
 end
