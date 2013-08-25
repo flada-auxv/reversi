@@ -33,7 +33,7 @@ module Reversi
       end
     end
 
-    def inspect
+    def to_s
       case
       when black? then '○'
       when white? then '×'
