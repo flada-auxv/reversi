@@ -27,16 +27,6 @@ module Reversi
       @board.score[color]
     end
 
-    # TODO Boardへ？
-    def pieces_coordinate_of(color = :black)
-      @board.each_with_index.with_object([]) { |(x_line, x), res|
-        if (y_idx = x_line.find_all_index(color))
-          x_y_idx = [x].product(y_idx)
-          res.push(*x_y_idx)
-        end
-      }
-    end
-
     def current_turn_color
       @turn.peek
     end
