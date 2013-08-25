@@ -47,8 +47,6 @@ module Reversi
     end
 
     def search_reversible(location)
-      x, y = Reversi::Board.coordinates_for(location)
-
       Reversi::Board::DIRECTIONS.keys.each_with_object([]) { |dir, res|
         res << check_for_straight_line(Reversi::Board.next_location_for(location, dir), dir)
       }.compact.flatten(1) # XXX ちょっとつらい？
