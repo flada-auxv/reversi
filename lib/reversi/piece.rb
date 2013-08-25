@@ -2,7 +2,7 @@ module Reversi
   class UnReversiblePieceError < StandardError; end
 
   class Piece
-    attr_reader :x, :y, :color
+    attr_reader :x, :y, :color, :movable
 
     def initialize(x = nil, y = nil, color = :none)
       @x = x
@@ -51,6 +51,16 @@ module Reversi
       define_method("#{color}?") do
         @color == color
       end
+    end
+
+    def movable!(color)
+      @movable = color
+      self
+    end
+
+    def movable?(color)
+      return nil unless @movable
+      @movable == color
     end
   end
 end

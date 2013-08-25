@@ -75,27 +75,6 @@ module Reversi
       {black: all_pieces.count(&:black?), white: all_pieces.count(&:white?)}
     end
 
-    def to_s
-      sio = StringIO.new
-
-      @board.each_with_index do |x_line, i|
-        sio << "#{i+1}"
-
-        x_line.each do |piece|
-          sio << '|'
-          case piece.color
-          when :none;  sio << ' '
-          when :black; sio << "\e[32mb\e[m"
-          when :white; sio << "\e[33mw\e[m"
-          end
-        end
-
-        sio << "|\n"
-      end
-
-      sio.string
-    end
-
     def ==(other)
       @board == other
     end
@@ -127,7 +106,7 @@ module Reversi
     def search_for_straight_line(piece, current_color, dir, candidates = [])
       case piece.color
       when :none
-        candidates.empty? ? nil : piece
+        candidates.empty? ? nil : piece.movable!(current_color)
       when current_color
         nil
       else
