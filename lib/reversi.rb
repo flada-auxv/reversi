@@ -62,8 +62,6 @@ module Reversi
     end
 
     def check_for_straight_line(piece, dir, candidates = [])
-      # return unless Reversi::Board.existing_location?(location)
-
       case piece.color
       when :none then return
       when current_turn_color
