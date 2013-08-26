@@ -19,27 +19,6 @@ module Reversi
       @board[location]
     end
 
-    def board_to_s
-      sio = StringIO.new
-
-      @board.board.each_with_index do |x_line, i|
-        sio << "#{i+1}"
-
-        x_line.each do |piece|
-          sio << '|'
-          case piece.color
-          when :none; piece.movable?(current_turn_color) ? sio << '○' : sio << ' '
-          when :black; sio << "\e[32mb\e[m"
-          when :white; sio << "\e[33mw\e[m"
-          end
-        end
-
-        sio << "|\n"
-      end
-
-      sio.string
-    end
-
     def score_of(color)
       @board.score[color]
     end

@@ -15,9 +15,7 @@ class ReversiExecuter
 
   def run
     loop do
-      @game.board.search_movable_pieces_for(@game.current_turn_color)
-
-      print_board
+      print_board(@game.board.search_movable_pieces_for(@game.current_turn_color))
 
       begin
         redo unless input = read_input
@@ -74,12 +72,29 @@ class ReversiExecuter
     puts ''
   end
 
-  def print_board
+  def print_board(movable_pieces)
     puts "turn -> #{@game.current_turn_color}"
     puts "------------------"
     puts "  a b c d e f g h"
 
-    puts @game.board_to_s
+    sio = StringIO.new
+
+    @game.board.board.each_with_index do |x_line, i|
+      sio << "#{i+1}"
+
+      x_line.each do |piece|
+        sio << '|'
+        case piece.color
+        when :none; movable_pieces.map(&:location).include?(piece.location) ? sio << '○' : sio << ' '
+        when :black; sio << "\e[32mb\e[m"
+        when :white; sio << "\e[33mw\e[m"
+        end
+      end
+
+      sio << "|\n"
+    end
+
+    puts sio.string
     puts ''
   end
 end
