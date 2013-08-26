@@ -78,9 +78,7 @@ module Reversi
     end
 
     def score
-      all_pieces = @board.flatten
-
-      {black: all_pieces.count(&:black?), white: all_pieces.count(&:white?)}
+      {black: self.count(&:black?), white: self.count(&:white?)}
     end
 
     def ==(other)
@@ -88,7 +86,7 @@ module Reversi
     end
 
     def all_pieces_of(color = :black)
-      @board.flatten.find_all(&"#{color}?".to_sym)
+      self.find_all(&"#{color}?".to_sym)
     end
 
     def next_piece_for(piece, dir)
