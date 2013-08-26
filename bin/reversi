@@ -79,19 +79,20 @@ class ReversiExecuter
 
     sio = StringIO.new
 
-    @game.board.board.each_with_index do |x_line, i|
-      sio << "#{i+1}"
+    @game.board.each_with_index do |piece, i|
+      x_idx = i % Reversi::Board::BOARD_SIZE
+      lineno = (i / Reversi::Board::BOARD_SIZE) + 1
 
-      x_line.each do |piece|
-        sio << '|'
-        case piece.color
-        when :none; movable_pieces.map(&:location).include?(piece.location) ? sio << '○' : sio << ' '
-        when :black; sio << "\e[32mb\e[m"
-        when :white; sio << "\e[33mw\e[m"
-        end
+      sio << lineno if x_idx == 0
+
+      sio << '|'
+      case piece.color
+      when :none; movable_pieces.map(&:location).include?(piece.location) ? sio << '○' : sio << ' '
+      when :black; sio << "\e[32mb\e[m"
+      when :white; sio << "\e[33mw\e[m"
       end
 
-      sio << "|\n"
+      sio << "|\n" if x_idx == 7
     end
 
     puts sio.string
