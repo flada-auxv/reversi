@@ -172,5 +172,52 @@ describe Reversi::Board do
 
       it { game.board.search_movable_pieces_for(:white).map(&:location).should =~ result }
     end
+
+    context 'スタート -> 黒:"f5" -> 白:"f4" -> 黒:"e3" の順に入力されたとき' do
+      # NOTE 内部実装的に同じピースが複数回入力できるとして選択されるとき
+
+      let(:result) { %w(d2 f2 d6 f6) }
+
+      #   a b c d e f g h
+      # 1| | | | | | | | |
+      # 2| | | |○| |○| | |
+      # 3| | | | |b| | | |
+      # 4| | | |w|b|w| | |
+      # 5| | | |b|b|b| | |
+      # 6| | | |○| |○| | |
+      # 7| | | | | | | | |
+      # 8| | | | | | | | |
+      before do
+        %w(f5 f4 e3).each do |loc|
+          game.move(loc)
+        end
+      end
+
+      it { game.board.search_movable_pieces_for(:white).map(&:location).should =~ result }
+    end
+
+    # @再現テスト
+    context 'スタート -> 黒:"f5" -> 白:"f4" の順に入力されたとき' do
+      # NOTE なんで??
+
+      let(:result) { %w(c3 d3 e3 f3 g3) }
+
+      #   a b c d e f g h
+      # 1| | | | | | | | |
+      # 2| | | | | | | | |
+      # 3| | |○|○|○|○|○| |
+      # 4| | | |w|w|w| | |
+      # 5| | | |b|b|b| | |
+      # 6| | | | | | | | |
+      # 7| | | | | | | | |
+      # 8| | | | | | | | |
+      before do
+        %w(f5 f4).each do |loc|
+          game.move(loc)
+        end
+      end
+
+      it { game.board.search_movable_pieces_for(:black).map(&:location).should =~ result }
+    end
   end
 end
