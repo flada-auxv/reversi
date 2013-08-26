@@ -3,6 +3,8 @@ require_relative 'piece'
 
 module Reversi
   class Board
+    include Enumerable
+
     attr_accessor :board
 
     BOARD_SIZE = 8
@@ -62,6 +64,12 @@ module Reversi
           Reversi::Piece.new(x, y, color)
         }
       }
+    end
+
+    def each(&block)
+      @board.flatten.each_with_object([]) do |piece, res|
+        res << block.call(piece) if block_given?
+      end
     end
 
     def [](location)
