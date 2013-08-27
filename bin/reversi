@@ -15,11 +15,17 @@ class ReversiExecuter
 
   def run
     loop do
-      print_board(@game.board.search_movable_pieces_for(@game.current_turn_color))
+      color = @game.current_turn_color
+      movable_pieces = @game.board.search_movable_pieces_for(color)
+      print_board(movable_pieces)
 
       begin
-        redo unless input = read_input
-        @game.move(input)
+        if ENV['AI'] && color == :white
+          @game.move(movable_pieces.sample.location)
+        else
+          redo unless input = read_input
+          @game.move(input)
+        end
       rescue Reversi::Game::IllegalMovementError
         help
         retry
