@@ -110,7 +110,7 @@ module Reversi
     def search_for_straight_line(piece, current_color, dir, candidates = [])
       case piece.color
       when :none
-        candidates.empty? ? nil : piece.movable!(current_color)
+        candidates.empty? ? nil : piece
       when current_color
         nil
       else

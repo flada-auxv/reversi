@@ -52,15 +52,5 @@ module Reversi
         @color == color
       end
     end
-
-    def movable!(color)
-      @movable = color
-      self
-    end
-
-    def movable?(color)
-      return nil unless @movable
-      @movable == color
-    end
   end
 end
