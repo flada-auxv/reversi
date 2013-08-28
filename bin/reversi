@@ -56,20 +56,32 @@ class ReversiExecuter
     when 'skip'; raise SkipException
     when 'exit', 'end'; raise ExitException
     when 'score'
-      input = nil
       print_score
+      return nil
     when ''
-      input = nil
-    when !INPUT_FORMAT
-      input = nil
+      return nil
+    when INPUT_FORMAT
+      return input
+    else
       help
+      return nil
     end
-
-    input
   end
 
   def help
-    puts 'そこには石を置く事ができません!!'
+    puts ' '
+    puts '❨╯#°□°❩╯<(そこには石を置く事ができません!!)'
+    puts '❨╯°□°❩╯<(オセロは初めてかい？)'
+    puts ' '
+    puts '石の置き方'
+    puts '石を置く場所は列・行の順に指定します 例）c3'
+    puts ' '
+    puts '便利なコマンド'
+    puts 'skip:石を置く場所がなければ skip で自分の手順を飛ばせます'
+    puts 'score:現在のスコアを score で表示させます'
+    puts 'exit, end:ゲームを終了させます ❨╯°□°❩╯︵┻━┻'
+    puts ' '
+    puts '❨╯°□°❩╯<(もう一度だけチャンスを与えてやる)'
   end
 
   def print_score
