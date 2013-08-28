@@ -61,10 +61,10 @@ class ReversiExecuter
     when ''
       input = nil
     when INPUT_FORMAT
-			return input 
-		else
-			help input 
-			return nil
+      return input
+    else
+      help
+      return nil
     end
   end
 
@@ -81,7 +81,7 @@ class ReversiExecuter
     puts 'score:現在のスコアを score で表示させます'
     puts 'exit, end:ゲームを終了させます ❨╯°□°❩╯︵┻━┻'
     puts ' '
-    puts '❨╯°□°❩╯<(もう一度だけチャンスを与えてやる)' 
+    puts '❨╯°□°❩╯<(もう一度だけチャンスを与えてやる)'
   end
 
   def print_score
