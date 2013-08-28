@@ -56,10 +56,10 @@ class ReversiExecuter
     when 'skip'; raise SkipException
     when 'exit', 'end'; raise ExitException
     when 'score'
-      input = nil
       print_score
+      return nil
     when ''
-      input = nil
+      return nil
     when INPUT_FORMAT
       return input
     else
