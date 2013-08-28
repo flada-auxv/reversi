@@ -33,7 +33,7 @@ module Reversi
 
     def move(location)
       piece = @board[location]
-      @reversible_pieces = search_reversible(piece)
+      @reversible_pieces = check_reversible(piece)
 
       raise IllegalMovementError unless valid_move?(piece)
 
@@ -43,7 +43,7 @@ module Reversi
       turn_change
     end
 
-    def search_reversible(piece)
+    def check_reversible(piece)
       Reversi::Board::DIRECTIONS.keys.each_with_object([]) { |dir, res|
         next unless (next_piece = @board.next_piece_for(piece, dir))
         res << check_for_straight_line(next_piece, dir)

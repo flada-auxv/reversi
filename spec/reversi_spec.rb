@@ -109,12 +109,12 @@ describe 'Reversi::Game' do
     end
   end
 
-  describe '#search_reversible' do
+  describe '#check_reversible' do
     context 'ゲームスタート直後のとき' do
       let(:e5_white) { Reversi::Piece.new(4, 4, :white) }
 
       specify '挟んだ石が取得されること' do
-        expect(reversi.search_reversible(reversi.board['f5'])).to eq [e5_white]
+        expect(reversi.check_reversible(reversi.board['f5'])).to eq [e5_white]
       end
     end
 
@@ -135,7 +135,7 @@ describe 'Reversi::Game' do
       end
 
       specify '挟んだ石が取得されること' do
-        expect(reversi.search_reversible(reversi.board['f4'])).to eq [e4_black]
+        expect(reversi.check_reversible(reversi.board['f4'])).to eq [e4_black]
       end
     end
 
@@ -159,7 +159,7 @@ describe 'Reversi::Game' do
 
       context '複数の相手の石を挟んだとき' do
         specify '挟んだ石がすべて取得されること' do
-          expect(reversi.search_reversible(reversi.board['f3'])).to eq [e4_white, f4_white]
+          expect(reversi.check_reversible(reversi.board['f3'])).to eq [e4_white, f4_white]
         end
       end
     end
