@@ -16,7 +16,7 @@ module Reversi
 
       @turn = [:black, :white].cycle
 
-      @players = {black: :user, white: :ai}
+      @players = {black: :user, white: Reversi::AI::Berserker.new}
 
       @ai = Reversi::AI::Berserker.new
 
@@ -38,8 +38,8 @@ module Reversi
           rescue ExitException
             break
           end
-        elsif @players[current_turn_color] == :ai
-          input = @ai.analyze(self)
+        else
+          input = @players[current_turn_color].analyze(self)
         end
 
         redo if input.nil?
