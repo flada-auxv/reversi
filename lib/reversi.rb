@@ -1,14 +1,7 @@
 require_relative 'reversi/piece'
 require_relative 'reversi/board'
 require_relative 'reversi/io_supporter'
-
-Player = Struct.new(:color, :type) {
-  %w(ai user).each do |_type|
-    define_method("#{_type}?") do
-      type == _type.to_sym
-    end
-  end
-}
+require_relative 'reversi/ai/berserker'
 
 module Reversi
   class Game
@@ -21,16 +14,20 @@ module Reversi
     def initialize
       @board = Reversi::Board.new
 
-      @turn = [Player.new(:black, :user), Player.new(:white, :user)].cycle
+      @turn = [:black, :white].cycle
+
+      @players = {black: :user, white: :ai}
+
+      @ai = Reversi::AI::Berserker.new
 
       @reversible_pieces = []
     end
 
     def game_loop
       loop do
-        if @turn.peek.user?
-          print_board(board.search_movable_pieces_for(current_turn_color))
+        print_board(board.search_movable_pieces_for(current_turn_color))
 
+        if @players[current_turn_color] == :user
           begin
             input = read_user_input
 
@@ -41,8 +38,8 @@ module Reversi
           rescue ExitException
             break
           end
-        elsif @turn.peek.ai?
-          input = ai(self)
+        elsif @players[current_turn_color] == :ai
+          input = @ai.analyze(self)
         end
 
         redo if input.nil?
@@ -68,11 +65,11 @@ module Reversi
     end
 
     def current_turn_color
-      @turn.peek.color
+      @turn.peek
     end
 
     def turn_change
-      @turn.next.color
+      @turn.next
     end
 
     def move(location)
