@@ -38,7 +38,7 @@ module Reversi
     def read_user_input
       print '>> '
 
-      case input = readline.chomp
+      case input = STDIN.gets.chomp
       when 'skip'
         puts 'skipped!!'
         puts ''
