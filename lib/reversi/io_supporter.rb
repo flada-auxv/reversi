@@ -2,10 +2,21 @@ module Reversi
   module IOSupporter
     INPUT_FORMAT = /[a-h][1-8]/
 
+    def print_current_turn(game)
+      mark = {black: ' ', white: ' '}
+      mark[game.current_turn_color] = '*'
+
+      puts <<-EOS
+
+turn:
+[#{mark[:black]}] black
+[#{mark[:white]}] white
+
+      EOS
+    end
+
     def print_board(game)
-      puts "turn -> #{game.current_turn_color}"
-      puts "------------------"
-      puts "  a b c d e f g h"
+      puts '  a b c d e f g h'
 
       sio = StringIO.new
       movable_pieces = game.board.search_movable_pieces_for(game.current_turn_color)
@@ -31,7 +42,6 @@ module Reversi
     end
 
     def print_score
-      puts "------------------"
       puts "black:#{score_of(:black)} -- white:#{score_of(:white)}"
       puts ''
     end
@@ -40,8 +50,8 @@ module Reversi
       print '>> '
 
       case input = STDIN.gets.chomp
-      when 'skip' then skip
-      when 'exit','end' then exit
+      when 'skip' then raise Reversi::Game::SkipException
+      when 'exit','end' then raise Reversi::Game::ExitException
       when 'score'
         print_score
         return nil
@@ -56,14 +66,13 @@ module Reversi
     def skip
       puts 'skipped!!'
       puts ''
-      Reversi::Game.skip
     end
 
     def exit
       puts 'exit!!'
+      puts ''
       print_board(self)
       print_score
-      Reversi::Game.exit
     end
 
     def help

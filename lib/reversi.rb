@@ -14,16 +14,6 @@ module Reversi
     class SkipException < StandardError; end
     class ExitException < StandardError; end
 
-    class << self
-      def skip
-        raise SkipException
-      end
-
-      def exit
-        raise ExitException
-      end
-    end
-
     def initialize(players_file_path = nil)
       @board = Reversi::Board.new
 
@@ -36,6 +26,7 @@ module Reversi
 
     def game_loop
       loop do
+        print_current_turn(self)
         print_board(self)
 
         begin
@@ -47,14 +38,16 @@ module Reversi
 
           move!(input)
 
-          exit if game_over?
+          raise ExitException if game_over?
         rescue IllegalMovementError
           help
           redo
         rescue SkipException
+          skip
           turn_over
           redo
         rescue ExitException
+          exit
           break
         end
       end
