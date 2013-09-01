@@ -19,7 +19,6 @@ turn:
       puts '  a b c d e f g h'
 
       sio = StringIO.new
-      movable_pieces = game.board.search_movable_pieces_for(game.current_turn_color)
 
       game.board.each_with_index do |piece, i|
         x_idx = i % Reversi::Board::BOARD_SIZE
@@ -29,7 +28,12 @@ turn:
 
         sio << '|'
         case piece.color
-        when :none; movable_pieces.map(&:location).include?(piece.location) ? sio << '○' : sio << ' '
+        when :none
+          if game.movable_pieces_for_current_turn_color.map(&:location).include?(piece.location)
+            sio << '○'
+          else
+            sio << ' '
+          end
         when :black; sio << "\e[32mb\e[m"
         when :white; sio << "\e[33mw\e[m"
         end

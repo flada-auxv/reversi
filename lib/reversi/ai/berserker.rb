@@ -7,7 +7,7 @@ module Reversi
       end
 
       def analyze(game)
-        unless (move_piece = game.board.search_movable_pieces_for(game.current_turn_color).sample)
+        unless (move_piece = game.movable_pieces_for_current_turn_color.sample)
           raise Reversi::Game::SkipException
         end
 

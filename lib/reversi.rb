@@ -103,6 +103,10 @@ module Reversi
       }.compact.flatten(1) # XXX ちょっとつらい？
     end
 
+    def movable_pieces_for_current_turn_color
+      @board.search_movable_pieces_for(current_turn_color)
+    end
+
     private
 
     # どちらの石も置かれてない && ひっくり返せる石が一つでもある  => その座標に打てる
