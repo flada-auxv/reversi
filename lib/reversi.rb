@@ -1,3 +1,4 @@
+require 'yaml'
 require_relative 'reversi/piece'
 require_relative 'reversi/board'
 require_relative 'reversi/io_supporter'
@@ -11,14 +12,12 @@ module Reversi
     class SkipException < StandardError; end
     class ExitException < StandardError; end
 
-    def initialize
+    def initialize(players_file_path = nil)
       @board = Reversi::Board.new
 
       @turn = [:black, :white].cycle
 
-      @players = {black: :user, white: Reversi::AI::Berserker.new}
-
-      @ai = Reversi::AI::Berserker.new
+      @players = load_players(players_file_path)
 
       @reversible_pieces = []
     end
@@ -112,6 +111,18 @@ module Reversi
     def reverse!
       @reversible_pieces.map(&:reverse)
       @reversible_pieces.clear
+    end
+
+    def load_players(players_file_path)
+      return {black: :user, white: :user} unless players_file_path
+
+      Psych.load_file(players_file_path).each_with_object({}) {|(k, v), res|
+        res[k.to_sym] = if v == 'User'
+          v.downcase.to_sym
+        else
+          Reversi::AI.const_get(v).new
+        end
+      }
     end
   end
 end

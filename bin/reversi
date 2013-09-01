@@ -2,4 +2,4 @@
 
 require_relative '../lib/reversi'
 
-Reversi::Game.new.game_loop
+Reversi::Game.new(ARGV[0]).game_loop
