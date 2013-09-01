@@ -7,7 +7,7 @@ describe 'Reversi::Game' do
     it { reversi.current_turn_color.should == :black }
   end
 
-  describe '#move' do
+  describe '#move!' do
     context 'スタート -> 黒:"f5" の順に入力されたとき' do
       let(:e5_black) { Reversi::Piece.new(4, 4, :black) }
 
@@ -21,7 +21,7 @@ describe 'Reversi::Game' do
       # 7| | | | | | | | |
       # 8| | | | | | | | |
       before do
-        reversi.move('f5')
+        reversi.move!('f5')
       end
 
       specify '"e5"の石がひっくり返り、手番が白に移ること' do
@@ -43,8 +43,8 @@ describe 'Reversi::Game' do
       # 7| | | | | | | | |
       # 8| | | | | | | | |
       before do
-        reversi.move('f5')
-        reversi.move('f4')
+        reversi.move!('f5')
+        reversi.move!('f4')
       end
 
       specify '"e4"の石がひっくり返り、手番が黒に移ること' do
@@ -59,7 +59,7 @@ describe 'Reversi::Game' do
 
       before do
         %w(f5 d6 c5 f4 e7 f6 g5 e6 e3).each do |location|
-          reversi.move(location)
+          reversi.move!(location)
         end
       end
 
@@ -96,12 +96,12 @@ describe 'Reversi::Game' do
       # 8| | | | | | | | |
       before do
         %w(f5 f4 g3 g4 g5 h4 h3 h2 g2 f2).each do |location|
-          reversi.move(location)
+          reversi.move!(location)
         end
       end
 
       specify '挟んでいない"g3"・"h3"の石がひっくり返らないこと' do
-        reversi.move('f3')
+        reversi.move!('f3')
 
         reversi.board['g3'].should be_white
         reversi.board['h3'].should be_white
@@ -131,7 +131,7 @@ describe 'Reversi::Game' do
       # 7| | | | | | | | |
       # 8| | | | | | | | |
       before do
-        reversi.move('f5')
+        reversi.move!('f5')
       end
 
       specify '挟んだ石が取得されること' do
@@ -153,8 +153,8 @@ describe 'Reversi::Game' do
       # 7| | | | | | | | |
       # 8| | | | | | | | |
       before do
-        reversi.move('f5')
-        reversi.move('f4')
+        reversi.move!('f5')
+        reversi.move!('f4')
       end
 
       context '複数の相手の石を挟んだとき' do

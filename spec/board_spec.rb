@@ -88,7 +88,7 @@ describe Reversi::Board do
 
       before do
         %w(f5 d6 c5 f4 e7 f6 g5 e6 e3).each do |location|
-          game.move(location)
+          game.move!(location)
         end
       end
 
@@ -138,7 +138,7 @@ describe Reversi::Board do
       # 7| | | | | | | | |
       # 8| | | | | | | | |
       before do
-        game.move('f5')
+        game.move!('f5')
       end
 
       let(:result) {
@@ -166,7 +166,7 @@ describe Reversi::Board do
       # 8| | | | | | | | |
       before do
         %w(f5 f4 e3).each do |loc|
-          game.move(loc)
+          game.move!(loc)
         end
       end
 
@@ -189,7 +189,7 @@ describe Reversi::Board do
       # 8| | | | | | | | |
       before do
         %w(f5 f4 e3).each do |loc|
-          game.move(loc)
+          game.move!(loc)
         end
       end
 
@@ -213,7 +213,7 @@ describe Reversi::Board do
       # 8| | | | | | | | |
       before do
         %w(f5 f4).each do |loc|
-          game.move(loc)
+          game.move!(loc)
         end
       end
 

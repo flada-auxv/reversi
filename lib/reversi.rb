@@ -40,7 +40,7 @@ module Reversi
           input = @players[current_turn_color].analyze(self)
         end
 
-        redo unless move(input)
+        redo unless move!(input)
 
         # check_game_end
       end
@@ -64,7 +64,7 @@ module Reversi
       @turn.next
     end
 
-    def move(location)
+    def move!(location)
       piece = @board[location]
       @reversible_pieces = check_reversible(piece)
 
