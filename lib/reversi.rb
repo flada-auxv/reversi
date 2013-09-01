@@ -49,7 +49,7 @@ module Reversi
           exit if game_over?
 
         rescue SkipException
-          turn_change
+          turn_over
           redo
         rescue ExitException
           break
@@ -84,7 +84,7 @@ module Reversi
       @turn.peek
     end
 
-    def turn_change
+    def turn_over
       @turn.next
     end
 
@@ -100,7 +100,7 @@ module Reversi
       reverse!
       piece.put(current_turn_color)
 
-      turn_change
+      turn_over
 
       true
     end
