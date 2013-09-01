@@ -10,6 +10,7 @@ module Reversi
 
     COLORS = [:black, :white]
 
+    class IllegalMovementError < StandardError; end
     class SkipException < StandardError; end
     class ExitException < StandardError; end
 
@@ -44,10 +45,12 @@ module Reversi
             input = @players[current_turn_color].analyze(self)
           end
 
-          redo unless move!(input)
+          move!(input)
 
           exit if game_over?
-
+        rescue IllegalMovementError
+          help
+          redo
         rescue SkipException
           turn_over
           redo
@@ -92,17 +95,12 @@ module Reversi
       piece = @board[location]
       @reversible_pieces = check_reversible(piece)
 
-      unless valid_move?(piece)
-        help
-        return nil
-      end
+      raise IllegalMovementError unless valid_move?(piece)
 
       reverse!
       piece.put(current_turn_color)
 
       turn_over
-
-      true
     end
 
     def check_reversible(piece)
