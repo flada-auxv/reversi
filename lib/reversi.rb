@@ -28,7 +28,7 @@ module Reversi
 
         if @players[current_turn_color] == :user
           begin
-            input = read_user_input
+            redo unless (input = read_user_input)
 
           # FIXME 例外で遷移するのではなく、内部の振る舞いとしてもてるはず!!
           rescue SkipException
@@ -40,8 +40,6 @@ module Reversi
         else
           input = @players[current_turn_color].analyze(self)
         end
-
-        redo if input.nil?
 
         begin
           move(input)
