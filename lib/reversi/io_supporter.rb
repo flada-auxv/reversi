@@ -2,14 +2,15 @@ module Reversi
   module IOSupporter
     INPUT_FORMAT = /[a-h][1-8]/
 
-    def print_board(movable_pieces)
-      puts "turn -> #{current_turn_color}"
+    def print_board(game)
+      puts "turn -> #{game.current_turn_color}"
       puts "------------------"
       puts "  a b c d e f g h"
 
       sio = StringIO.new
+      movable_pieces = game.board.search_movable_pieces_for(game.current_turn_color)
 
-      board.each_with_index do |piece, i|
+      game.board.each_with_index do |piece, i|
         x_idx = i % Reversi::Board::BOARD_SIZE
         lineno = (i / Reversi::Board::BOARD_SIZE) + 1
 
@@ -60,6 +61,7 @@ module Reversi
 
     def exit
       puts 'exit!!'
+      print_board(self)
       print_score
       Reversi::Game.exit
     end

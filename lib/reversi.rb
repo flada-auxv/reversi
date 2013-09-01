@@ -35,7 +35,7 @@ module Reversi
 
     def game_loop
       loop do
-        print_board(board.search_movable_pieces_for(current_turn_color))
+        print_board(self)
 
         begin
           if @players[current_turn_color] == :user
