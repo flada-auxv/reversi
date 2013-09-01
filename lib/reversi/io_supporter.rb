@@ -39,25 +39,29 @@ module Reversi
       print '>> '
 
       case input = STDIN.gets.chomp
-      when 'skip'
-        puts 'skipped!!'
-        puts ''
-        raise Reversi::Game::SkipException
-      when 'exit','end'
-        puts 'exit!!'
-        print_score
-        raise Reversi::Game::ExitException
+      when 'skip' then skip
+      when 'exit','end' then exit
       when 'score'
         print_score
         return nil
-      when ''
-        return nil
-      when INPUT_FORMAT
-        return input
+      when '' then return nil
+      when INPUT_FORMAT then return input
       else
         help
         return nil
       end
+    end
+
+    def skip
+      puts 'skipped!!'
+      puts ''
+      Reversi::Game.skip
+    end
+
+    def exit
+      puts 'exit!!'
+      print_score
+      Reversi::Game.exit
     end
 
     def help

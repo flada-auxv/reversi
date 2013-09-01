@@ -11,6 +11,16 @@ module Reversi
     class SkipException < StandardError; end
     class ExitException < StandardError; end
 
+    class << self
+      def skip
+        raise SkipException
+      end
+
+      def exit
+        raise ExitException
+      end
+    end
+
     def initialize(players_file_path = nil)
       @board = Reversi::Board.new
 
@@ -25,19 +35,18 @@ module Reversi
       loop do
         print_board(board.search_movable_pieces_for(current_turn_color))
 
-        if @players[current_turn_color] == :user
-          begin
+        begin
+          if @players[current_turn_color] == :user
             redo unless (input = read_user_input)
-
-          # FIXME 例外で遷移するのではなく、内部の振る舞いとしてもてるはず!!
-          rescue SkipException
-            turn_change
-            redo
-          rescue ExitException
-            break
+          else
+            input = @players[current_turn_color].analyze(self)
           end
-        else
-          input = @players[current_turn_color].analyze(self)
+
+        rescue SkipException
+          turn_change
+          redo
+        rescue ExitException
+          break
         end
 
         redo unless move!(input)
