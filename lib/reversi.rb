@@ -8,6 +8,8 @@ module Reversi
   class Game
     include IOSupporter
 
+    COLORS = [:black, :white]
+
     class SkipException < StandardError; end
     class ExitException < StandardError; end
 
@@ -24,7 +26,7 @@ module Reversi
     def initialize(players_file_path = nil)
       @board = Reversi::Board.new
 
-      @turn = [:black, :white].cycle
+      @turn = COLORS.cycle
 
       @players = load_players(players_file_path)
 
@@ -42,17 +44,30 @@ module Reversi
             input = @players[current_turn_color].analyze(self)
           end
 
+          redo unless move!(input)
+
+          exit if game_over?
+
         rescue SkipException
           turn_change
           redo
         rescue ExitException
           break
         end
-
-        redo unless move!(input)
-
-        # check_game_end
       end
+    end
+
+    # 石が盤面の64の升目を全て埋め尽くした or 打つ場所が両者ともなくなった時点でゲーム終了
+    def game_over?
+      return true unless @board.any?(&:none?)
+
+      both_sides_movable_pieces = COLORS.map {|color|
+        @board.search_movable_pieces_for(color)
+      }.flatten
+
+      return true if both_sides_movable_pieces.empty?
+
+      false
     end
 
     def board(location = nil)
