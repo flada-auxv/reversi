@@ -8,7 +8,6 @@ module Reversi
   class Game
     include IOSupporter
 
-    class IllegalMovementError < StandardError; end
     class SkipException < StandardError; end
     class ExitException < StandardError; end
 
@@ -41,12 +40,8 @@ module Reversi
           input = @players[current_turn_color].analyze(self)
         end
 
-        begin
-          move(input)
-        rescue IllegalMovementError
-          help
-          redo
-        end
+        redo unless move(input)
+
         # check_game_end
       end
     end
@@ -73,12 +68,17 @@ module Reversi
       piece = @board[location]
       @reversible_pieces = check_reversible(piece)
 
-      raise IllegalMovementError unless valid_move?(piece)
+      unless valid_move?(piece)
+        help
+        return nil
+      end
 
       reverse!
       piece.put(current_turn_color)
 
       turn_change
+
+      true
     end
 
     def check_reversible(piece)
