@@ -1,5 +1,5 @@
 # ユーザ操作としたい場合は `User` を指定して下さい。
 # AI 操作としたい場合は lib/reversi/ai/ 配下に配置してある AI クラス名を指定して下さい。
 
-black: Berserker
+black: User
 white: Berserker
