@@ -1,6 +1,8 @@
+require_relative 'base'
+
 module Reversi
   module AI
-    class Berserker
+    class Berserker < Base
       def initialize
       end
 
