@@ -96,6 +96,9 @@ module Reversi
       @board[x][y]
     end
 
+    def serialize
+      @board.flatten.map(&:color)
+    end
     def search_movable_pieces_for(color)
       all_pieces_of(color).map.with_object([]) {|piece, res|
         DIRECTIONS.keys.each do |dir|

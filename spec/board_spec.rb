@@ -220,4 +220,33 @@ describe Reversi::Board do
       it { game.board.search_movable_pieces_for(:black).map(&:location).should =~ result }
     end
   end
+
+  describe '#serialize' do
+    let(:piece_num) { Reversi::Board::BOARD_SIZE * Reversi::Board::BOARD_SIZE }
+    let(:black_piece_idx) { [28, 35] }
+    let(:white_piece_idex) { [27, 36] }
+    let(:none_piece_idex) { (0...piece_num).to_a - black_piece_idx - white_piece_idex }
+
+    subject { board.serialize }
+
+    its(:size) { should == 64 }
+
+    specify do
+      black_piece_idx.each do |idx|
+        subject[idx].should == :black
+      end
+    end
+
+    specify do
+      white_piece_idex.each do |idx|
+        subject[idx].should == :white
+      end
+    end
+
+    specify do
+      none_piece_idex.each do |idx|
+        subject[idx].should == :none
+      end
+    end
+  end
 end
