@@ -50,8 +50,8 @@ module Reversi
     end
 
     def initialize
-      @board = Array.new(BOARD_SIZE, nil).map.with_index { |x_line, x|
-        BOARD_SIZE.times.map.with_index { |_, y|
+      @board = Array.new(BOARD_SIZE, nil).map.with_index {|_, x|
+        BOARD_SIZE.times.map.with_index {|_, y|
 
           color = case [x, y]
             when *PIECE_COORDINATES_WHEN_STARTED[:white]; :white
