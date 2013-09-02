@@ -49,19 +49,27 @@ module Reversi
       end
     end
 
-    def initialize
-      @board = Array.new(BOARD_SIZE, nil).map.with_index {|_, x|
-        BOARD_SIZE.times.map.with_index {|_, y|
-
-          color = case [x, y]
-            when *PIECE_COORDINATES_WHEN_STARTED[:white]; :white
-            when *PIECE_COORDINATES_WHEN_STARTED[:black]; :black
-            else :none
-          end
-
-          Reversi::Piece.new(x, y, color)
+    def initialize(pieces_color = nil)
+      @board = if pieces_color # XXX ぅぅぅ…
+        pieces_color.each_slice(BOARD_SIZE).map.with_index {|x_line, x|
+          x_line.map.with_index {|color, y|
+            Reversi::Piece.new(x, y, color)
+          }
         }
-      }
+      else
+        Array.new(BOARD_SIZE, nil).map.with_index {|_, x|
+          BOARD_SIZE.times.map.with_index {|_, y|
+
+            color = case [x, y]
+              when *PIECE_COORDINATES_WHEN_STARTED[:white]; :white
+              when *PIECE_COORDINATES_WHEN_STARTED[:black]; :black
+              else :none
+            end
+
+            Reversi::Piece.new(x, y, color)
+          }
+        }
+      end
     end
 
     def each(&block)
@@ -99,6 +107,11 @@ module Reversi
     def serialize
       @board.flatten.map(&:color)
     end
+
+    def dup
+      Board.new(self.serialize)
+    end
+
     def search_movable_pieces_for(color)
       all_pieces_of(color).map.with_object([]) {|piece, res|
         DIRECTIONS.keys.each do |dir|

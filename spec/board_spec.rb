@@ -249,4 +249,17 @@ describe Reversi::Board do
       end
     end
   end
+
+  describe '#dup' do
+    subject { board.dup }
+
+    %w(a1 d4 e4 g5).each do |loc|
+      specify do
+        subject[loc].color.should == board[loc].color
+        subject[loc].x.should == board[loc].x
+        subject[loc].y.should == board[loc].y
+        subject[loc].object_id.should_not == board[loc].object_id
+      end
+    end
+  end
 end
