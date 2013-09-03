@@ -94,6 +94,7 @@ module Reversi
       piece.put(current_turn_color)
 
       turn_over
+      self
     end
 
     def check_reversible(piece)
