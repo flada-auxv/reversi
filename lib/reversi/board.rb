@@ -88,7 +88,9 @@ module Reversi
     end
 
     def ==(other)
-      @board == other
+      return nil unless other.respond_to?(:serialize)
+
+      self.serialize == other.serialize
     end
 
     def all_pieces_of(color = :black)

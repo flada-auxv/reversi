@@ -9,24 +9,6 @@ describe Reversi::Board do
   let(:ll) { Reversi::Piece.new(4, 3, :black) } # lowwer_left_black_piece
   let(:lr) { Reversi::Piece.new(4, 4, :white) } # lowwer_right_white_piece
 
-  describe '#initialize' do
-    let(:initial_board) {
-      [
-        #a  b  c  d  e  f  g  h
-        [n ,n ,n ,n ,n ,n ,n ,n],# 1
-        [n ,n ,n ,n ,n ,n ,n ,n],# 2
-        [n ,n ,n ,n ,n ,n ,n ,n],# 3
-        [n ,n ,n ,ul,ur,n ,n ,n],# 4
-        [n ,n ,n ,ll,lr,n ,n ,n],# 5
-        [n ,n ,n ,n ,n ,n ,n ,n],# 6
-        [n ,n ,n ,n ,n ,n ,n ,n],# 7
-        [n ,n ,n ,n ,n ,n ,n ,n] # 8
-      ]
-    }
-
-    it { board.should == initial_board }
-  end
-
   describe '#[]' do
     it { board['e4'].should == ur }
   end
@@ -261,5 +243,9 @@ describe Reversi::Board do
         subject[loc].object_id.should_not == board[loc].object_id
       end
     end
+  end
+
+  describe '#==' do
+    it { board.==(Reversi::Board.new).should be_true }
   end
 end
