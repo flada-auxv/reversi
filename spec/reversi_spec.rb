@@ -196,4 +196,18 @@ describe 'Reversi::Game' do
       end
     end
   end
+
+  describe '#dup' do
+    subject { reversi.dup }
+
+    its('board.serialize') { should == reversi.board.serialize }
+    specify do
+      subject.board.each do |piece|
+        piece.should_not equal reversi.board[piece.location]
+      end
+    end
+
+    its(:current_turn_color) { should == reversi.current_turn_color }
+    it { subject.instance_variable_get(:@turn).should_not equal reversi.instance_variable_get(:@turn) }
+  end
 end

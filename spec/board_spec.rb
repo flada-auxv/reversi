@@ -250,8 +250,8 @@ describe Reversi::Board do
     end
   end
 
-  describe '#dup' do
-    subject { board.dup }
+  describe '#deep_copy' do
+    subject { board.deep_copy }
 
     %w(a1 d4 e4 g5).each do |loc|
       specify do

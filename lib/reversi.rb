@@ -107,6 +107,15 @@ module Reversi
       @board.search_movable_pieces_for(current_turn_color)
     end
 
+    def dup
+      super.tap {|copied|
+        copied.instance_eval {
+          @board = copied.board.deep_copy
+          @turn = @turn.take(2).cycle # FIXME これはヒドい… 普通に #dup すると can't copy execution context が発生する
+        }
+      }
+    end
+
     private
 
     # どちらの石も置かれてない && ひっくり返せる石が一つでもある  => その座標に打てる

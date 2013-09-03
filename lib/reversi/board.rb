@@ -108,7 +108,7 @@ module Reversi
       @board.flatten.map(&:color)
     end
 
-    def dup
+    def deep_copy
       Board.new(self.serialize)
     end
 
