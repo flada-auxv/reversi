@@ -210,4 +210,8 @@ describe 'Reversi::Game' do
     its(:current_turn_color) { should == reversi.current_turn_color }
     it { subject.instance_variable_get(:@turn).should_not equal reversi.instance_variable_get(:@turn) }
   end
+
+  describe '#==' do
+    it { reversi.==(Reversi::Game.new).should be_true }
+  end
 end

@@ -117,6 +117,11 @@ module Reversi
       }
     end
 
+    def ==(other)
+      self.board == other.board
+      self.current_turn_color == other.current_turn_color
+    end
+
     private
 
     # どちらの石も置かれてない && ひっくり返せる石が一つでもある  => その座標に打てる
