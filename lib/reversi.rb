@@ -8,6 +8,12 @@ module Reversi
   class Game
     include IOSupporter
 
+    Turn = Struct.new(:color) {
+      def next
+        self.color = ((color == :black) ? :white : :black)
+      end
+    }
+
     COLORS = [:black, :white]
 
     class IllegalMovementError < StandardError; end
@@ -17,7 +23,7 @@ module Reversi
     def initialize(players_file_path = nil)
       @board = Reversi::Board.new
 
-      @turn = COLORS.cycle
+      @turn = Turn.new(:black)
 
       @players = load_players(players_file_path)
 
@@ -77,7 +83,7 @@ module Reversi
     end
 
     def current_turn_color
-      @turn.peek
+      @turn.color
     end
 
     def turn_over
@@ -112,7 +118,7 @@ module Reversi
       super.tap {|copied|
         copied.instance_eval {
           @board = copied.board.deep_copy
-          @turn = @turn.take(2).cycle # FIXME これはヒドい… 普通に #dup すると can't copy execution context が発生する
+          @turn = @turn.dup
         }
       }
     end
