@@ -123,6 +123,29 @@ module Reversi
       }.compact.uniq
     end
 
+    def inspect
+      sio = StringIO.new
+
+      sio << "\n  a b c d e f g h\n"
+
+      self.each_with_index do |piece, i|
+        x_idx = i % Reversi::Board::BOARD_SIZE
+        lineno = (i / Reversi::Board::BOARD_SIZE) + 1
+
+        sio << lineno if x_idx == 0
+
+        sio << '|'
+        case piece.color
+        when :none; sio << ' '
+        when :black; sio << "\e[32mb\e[m"
+        when :white; sio << "\e[33mw\e[m"
+        end
+
+        sio << "|\n" if x_idx == 7
+      end
+      sio.string
+    end
+
     private
 
     def search_for_straight_line(piece, current_color, dir, candidates = [])
