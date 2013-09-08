@@ -20,14 +20,14 @@ module Reversi
       end
 
       def all_leaves
-        @root.children_leaves
+        @root.leaves
       end
     end
 
     class Node
       include Enumerable
 
-      attr_accessor :game_status, :depth, :parent, :children
+      attr_accessor :game_status, :depth, :parent, :children, :score
 
       def initialize(game_status)
         @game_status = game_status
@@ -68,14 +68,30 @@ module Reversi
       end
       alias :each_children :each
 
-      def children_leaves
+      def leaves
         self.map {|child|
-          child.leaf? ? child : child.children_leaves
+          child.leaf? ? child : child.leaves
         }.flatten
       end
 
+      def postorder_traverse
+        self.map {|child|
+          if child.leaf?
+            child.eval(self.game_status.current_turn_color)
+          else
+            child.score = child.postorder_traverse.max
+          end
+        }
+      end
+
+      def eval(color)
+        @score = @game_status.score_of(color)
+      end
+
       def inspect
-        ''
+        loc = @game_status.current_move || 'root'
+
+        sprintf("<Node:: move: %s, score: %s>", loc, score)
       end
     end
   end

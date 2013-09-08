@@ -1,3 +1,5 @@
+require_relative 'game_tree'
+
 module Reversi
   module AI
     class NotImplementedError < StandardError; end
