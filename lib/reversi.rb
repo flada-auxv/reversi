@@ -27,8 +27,6 @@ module Reversi
 
       @players = load_players(players_file_path)
 
-      @reversible_pieces = []
-
       @move_history = []
     end
 
