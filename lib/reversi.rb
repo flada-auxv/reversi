@@ -100,17 +100,17 @@ module Reversi
       reversible_pieces.map(&:reverse)
 
       turn_over!
-
       @move_history << location
 
       self
     end
 
     def check_reversible(piece)
-      Reversi::Board::DIRECTIONS.keys.each_with_object([]) { |dir, res|
+      Reversi::Board::DIRECTIONS.keys.each_with_object([]) {|dir, res|
         next unless (next_piece = @board.next_piece_for(piece, dir))
+
         res << check_for_straight_line(next_piece, dir)
-      }.compact.flatten(1) # XXX ちょっとつらい？
+      }.compact.flatten(1)
     end
 
     def movable_pieces_for_current_turn_color
