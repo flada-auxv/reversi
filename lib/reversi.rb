@@ -28,6 +28,8 @@ module Reversi
       @players = load_players(players_file_path)
 
       @reversible_pieces = []
+
+      @move_history = []
     end
 
     def game_loop
@@ -100,6 +102,9 @@ module Reversi
       piece.put(current_turn_color)
 
       turn_over
+
+      @move_history << location
+
       self
     end
 
@@ -114,11 +119,16 @@ module Reversi
       @board.search_movable_pieces_for(current_turn_color)
     end
 
+    def current_move
+      @move_history.last
+    end
+
     def dup
       super.tap {|copied|
         copied.instance_eval {
           @board = copied.board.deep_copy
           @turn = @turn.dup
+          @move_history = @move_history.dup
         }
       }
     end
