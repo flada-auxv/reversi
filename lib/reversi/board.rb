@@ -33,20 +33,6 @@ module Reversi
       def coordinates_for(location)
         return location[1].to_i - 1, location[0].ord - Y_LINE_CHAR_BASE
       end
-
-      def existing_location?(location)
-        x, y = coordinates_for(location)
-        BOARD_INDEX_RANGE === x && BOARD_INDEX_RANGE === y
-      end
-
-      def next_location_for(location, dir)
-        return nil unless DIRECTIONS.include?(dir)
-
-        x, y = coordinates_for(location)
-        _x, _y = DIRECTIONS[dir]
-
-        sprintf('%s%s', ((y + _y) + Y_LINE_CHAR_BASE).chr, (x + _x) + 1)
-      end
     end
 
     def initialize(pieces_color = nil)

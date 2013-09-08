@@ -34,18 +34,6 @@ describe Reversi::Board do
     it { Reversi::Board.coordinates_for('f5').should == [4, 5] }
   end
 
-  describe '.existing_location?' do
-    it { Reversi::Board.existing_location?('a1').should be_true }
-    it { Reversi::Board.existing_location?('a9').should be_false }
-    it { Reversi::Board.existing_location?('i3').should be_false }
-  end
-
-  describe '.next_location_for' do
-    it { Reversi::Board.next_location_for('d4', '1',).should == 'c3' }
-    it { Reversi::Board.next_location_for('d4', '5',).should be_nil }
-    it { Reversi::Board.next_location_for('d4', '10').should be_nil }
-  end
-
   describe '#all_pieces_of' do
     subject { game.board.all_pieces_of(color) }
 
