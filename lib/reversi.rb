@@ -81,7 +81,7 @@ module Reversi
       reversible_pieces.map(&:reverse)
 
       turn_over!
-      @move_history << location
+      add_history(location)
 
       self
     end
@@ -109,6 +109,10 @@ module Reversi
 
     def current_move
       @move_history.last
+    end
+
+    def add_history(location)
+      @move_history << location
     end
 
     def dup
