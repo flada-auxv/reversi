@@ -2,9 +2,9 @@ module Reversi
   module IOSupporter
     INPUT_FORMAT = /[a-h][1-8]/
 
-    def print_current_turn(game)
+    def print_current_turn
       mark = {black: ' ', white: ' '}
-      mark[game.current_turn_color] = '*'
+      mark[self.current_turn_color] = '*'
 
       puts <<-EOS
 
@@ -15,12 +15,12 @@ turn:
       EOS
     end
 
-    def print_board(game)
+    def print_board
       puts '  a b c d e f g h'
 
       sio = StringIO.new
 
-      game.board.each_with_index do |piece, i|
+      self.board.each_with_index do |piece, i|
         x_idx = i % Reversi::Board::BOARD_SIZE
         lineno = (i / Reversi::Board::BOARD_SIZE) + 1
 
@@ -29,7 +29,7 @@ turn:
         sio << '|'
         case piece.color
         when :none
-          if game.movable_pieces_for_current_turn_color.map(&:location).include?(piece.location)
+          if self.movable_pieces_for_current_turn_color.map(&:location).include?(piece.location)
             sio << '○'
           else
             sio << ' '
