@@ -40,6 +40,7 @@ GEM
     rspec-mocks (2.14.3)
     slop (3.4.6)
     thor (0.18.1)
+    yard (0.8.7)
 
 PLATFORMS
   ruby
@@ -48,3 +49,4 @@ DEPENDENCIES
   growl
   guard-rspec
   pry
+  yard
