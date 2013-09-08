@@ -3,6 +3,7 @@ require_relative 'reversi/piece'
 require_relative 'reversi/board'
 require_relative 'reversi/io_supporter'
 require_relative 'reversi/ai/berserker'
+require_relative 'reversi/ai/game_tree'
 
 module Reversi
   class Game
