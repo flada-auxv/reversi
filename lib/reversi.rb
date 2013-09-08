@@ -91,10 +91,7 @@ module Reversi
     end
 
     def move!(location)
-      move_piece = @board[location]
-      reversible_pieces = check_reversible(move_piece)
-
-      raise IllegalMovementError unless valid_move?(move_piece, reversible_pieces)
+      move_piece, reversible_pieces = obtain_pieces!(location)
 
       move_piece.put(current_turn_color)
       reversible_pieces.map(&:reverse)
@@ -103,6 +100,15 @@ module Reversi
       @move_history << location
 
       self
+    end
+
+    def obtain_pieces!(location)
+      move_piece = @board[location]
+      reversible_pieces = check_reversible(move_piece)
+
+      raise IllegalMovementError unless valid_move?(move_piece, reversible_pieces)
+
+      return move_piece, reversible_pieces
     end
 
     def check_reversible(piece)
