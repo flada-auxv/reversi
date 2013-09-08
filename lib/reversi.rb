@@ -1,4 +1,5 @@
 require 'yaml'
+require_relative 'reversi/rule'
 require_relative 'reversi/piece'
 require_relative 'reversi/board'
 require_relative 'reversi/turn_table'
@@ -7,6 +8,7 @@ require_relative 'reversi/ai/berserker'
 
 module Reversi
   class Game
+    include Rule
     prepend TurnTable
     include IOSupporter
 
@@ -49,19 +51,6 @@ module Reversi
           break
         end
       end
-    end
-
-    # 石が盤面の64の升目を全て埋め尽くした or 打つ場所が両者ともなくなった時点でゲーム終了
-    def game_over?
-      return true unless @board.any?(&:none?)
-
-      both_sides_movable_pieces = COLORS.map {|color|
-        @board.search_movable_pieces_for(color)
-      }.flatten
-
-      return true if both_sides_movable_pieces.empty?
-
-      false
     end
 
     def board(location = nil)
