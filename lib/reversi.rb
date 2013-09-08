@@ -93,13 +93,13 @@ module Reversi
     end
 
     def move!(location)
-      piece = @board[location]
-      @reversible_pieces = check_reversible(piece)
+      move_piece = @board[location]
+      reversible_pieces = check_reversible(move_piece)
 
-      raise IllegalMovementError unless valid_move?(piece)
+      raise IllegalMovementError unless valid_move?(move_piece, reversible_pieces)
 
-      reverse!
-      piece.put(current_turn_color)
+      move_piece.put(current_turn_color)
+      reversible_pieces.map(&:reverse)
 
       turn_over
 
@@ -141,8 +141,8 @@ module Reversi
     private
 
     # どちらの石も置かれてない && ひっくり返せる石が一つでもある  => その座標に打てる
-    def valid_move?(piece)
-      piece.none? && !@reversible_pieces.empty?
+    def valid_move?(piece, reversible_pieces)
+      piece.none? && !reversible_pieces.empty?
     end
 
     def check_for_straight_line(piece, dir, candidates = [])
@@ -154,11 +154,6 @@ module Reversi
         return nil unless (next_piece = @board.next_piece_for(piece, dir))
         check_for_straight_line(next_piece, dir, candidates << piece)
       end
-    end
-
-    def reverse!
-      @reversible_pieces.map(&:reverse)
-      @reversible_pieces.clear
     end
 
     def load_players(players_file_path)
