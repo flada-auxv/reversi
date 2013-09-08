@@ -1,20 +1,14 @@
 require 'yaml'
 require_relative 'reversi/piece'
 require_relative 'reversi/board'
+require_relative 'reversi/turn_table'
 require_relative 'reversi/io_supporter'
 require_relative 'reversi/ai/berserker'
 
 module Reversi
   class Game
+    prepend TurnTable
     include IOSupporter
-
-    Turn = Struct.new(:color) {
-      def next
-        self.color = ((color == :black) ? :white : :black)
-      end
-    }
-
-    COLORS = [:black, :white]
 
     class IllegalMovementError < StandardError; end
     class SkipException < StandardError; end
@@ -22,8 +16,6 @@ module Reversi
 
     def initialize(players_file_path = nil)
       @board = Reversi::Board.new
-
-      @turn = Turn.new(:black)
 
       @players = load_players(players_file_path)
 
@@ -80,14 +72,6 @@ module Reversi
 
     def score_of(color)
       @board.score[color]
-    end
-
-    def current_turn_color
-      @turn.color
-    end
-
-    def turn_over!
-      @turn.next
     end
 
     def move!(location)
