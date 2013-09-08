@@ -52,7 +52,7 @@ module Reversi
           redo
         rescue SkipException
           skip
-          turn_over
+          turn_over!
           redo
         rescue ExitException
           exit
@@ -88,7 +88,7 @@ module Reversi
       @turn.color
     end
 
-    def turn_over
+    def turn_over!
       @turn.next
     end
 
@@ -101,7 +101,7 @@ module Reversi
       move_piece.put(current_turn_color)
       reversible_pieces.map(&:reverse)
 
-      turn_over
+      turn_over!
 
       @move_history << location
 
