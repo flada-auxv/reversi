@@ -105,12 +105,12 @@ module Reversi
     end
 
     def dup
-      super.tap {|copied|
-        copied.instance_eval {
-          @board = copied.board.deep_copy
-          @turn = @turn.dup
-          @move_history = @move_history.dup
-        }
+      super.instance_eval {
+        @board = @board.deep_copy
+        @turn = @turn.dup
+        @move_history = @move_history.dup
+
+        self
       }
     end
 
@@ -133,6 +133,7 @@ module Reversi
         candidates.empty? ? nil : candidates
       else
         return nil unless (next_piece = @board.next_piece_for(piece, dir))
+
         check_for_straight_line(next_piece, dir, candidates << piece)
       end
     end
