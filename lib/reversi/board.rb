@@ -16,16 +16,10 @@ module Reversi
     }
 
     DIRECTIONS = {
-      '1' => [-1, -1],
-      '2' => [-1,  0],
-      '3' => [-1, +1],
-      '4' => [ 0, -1],
-    # '5' => [ 0,  0],
-      '6' => [ 0, +1],
-      '7' => [+1, -1],
-      '8' => [+1,  0],
-      '9' => [+1, +1]
-    }
+      '1' => [-1, -1], '2' => [-1,  0], '3' => [-1, +1],
+      '4' => [ 0, -1], '5' => [ 0,  0], '6' => [ 0, +1],
+      '7' => [+1, -1], '8' => [+1,  0], '9' => [+1, +1]
+    }.reject {|k, v| k == '5'}
 
     private_class_method :new
 
@@ -60,7 +54,11 @@ module Reversi
     def each(&block)
       base = @board.flatten.each
 
-      block_given? ? base.with_object([]) {|piece, res| res << block.call(piece) } : base
+      if block_given?
+        base.with_object([]) {|piece, res| res << block.call(piece) }
+      else
+        base
+      end
     end
 
     def [](location)
@@ -103,15 +101,14 @@ module Reversi
       all_pieces_of(color).map.with_object([]) {|piece, res|
         DIRECTIONS.keys.each do |dir|
           next unless (next_piece = next_piece_for(piece, dir))
+
           res << search_for_straight_line(next_piece, color, dir)
         end
       }.compact.uniq
     end
 
     def inspect
-      sio = StringIO.new
-
-      sio << "\n  a b c d e f g h\n"
+      sio = StringIO.new("\n  a b c d e f g h\n")
 
       self.each_with_index do |piece, i|
         x_idx = i % Reversi::Board::BOARD_SIZE
@@ -128,6 +125,7 @@ module Reversi
 
         sio << "|\n" if x_idx == 7
       end
+
       sio.string
     end
 
@@ -141,6 +139,7 @@ module Reversi
         nil
       else
         return nil unless (next_piece = next_piece_for(piece, dir))
+
         search_for_straight_line(next_piece, current_color, dir, candidates << piece)
       end
     end
