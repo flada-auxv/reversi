@@ -1,3 +1,6 @@
+require 'coveralls'
+Coveralls.wear!
+
 require_relative '../lib/reversi'
 require_relative '../lib/core_ext/array'
 require_relative '../lib/reversi/piece'
