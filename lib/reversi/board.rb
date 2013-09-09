@@ -35,6 +35,8 @@ module Reversi
         }
       end
 
+      # Board#serialize によって直列化された Board インスタンスの複製を作ります
+      # @param [Array] Board#serialize によって直列化された Board の石情報の配列
       def create_by_seriarized_board(serialized_board)
         new.instance_eval {
           @board = serialized_board.each_slice(BOARD_SIZE).map.with_index {|x_line, x|
