@@ -2,7 +2,7 @@ require 'spec_helper'
 
 describe Reversi::Board do
   let(:game) { Reversi::Game.new }
-  let(:board) { Reversi::Board.new }
+  let(:board) { Reversi::Board.create }
   let(:n) { Reversi::Piece.new } # none_piece
   let(:ul) { Reversi::Piece.new(3, 3, :white) } # upper_left_white_piece
   let(:ur) { Reversi::Piece.new(3, 4, :black) } # upper_right_black_piece
@@ -234,6 +234,6 @@ describe Reversi::Board do
   end
 
   describe '#==' do
-    it { board.==(Reversi::Board.new).should be_true }
+    it { board.==(Reversi::Board.create).should be_true }
   end
 end

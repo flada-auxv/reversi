@@ -17,7 +17,7 @@ module Reversi
     class ExitException < StandardError; end
 
     def initialize(players_file_path = nil)
-      @board = Reversi::Board.new
+      @board = Reversi::Board.create
 
       @players = load_players(players_file_path)
 

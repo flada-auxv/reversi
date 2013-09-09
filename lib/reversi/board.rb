@@ -12,7 +12,7 @@ module Reversi
 
     Y_LINE_CHAR_BASE = 'a'.ord
 
-    PIECE_COORDINATES_WHEN_STARTED = {
+    INITIAL_PIECES_COORDINATES = {
       white: [[3,3], [4,4]],
       black: [[3,4], [4,3]]
     }
@@ -29,32 +29,40 @@ module Reversi
       '9' => [+1, +1]
     }
 
+    private_class_method :new
+
     class << self
+      def create
+        new.instance_eval {
+          @board = Array.new(BOARD_SIZE, nil).map.with_index {|_, x|
+            BOARD_SIZE.times.map.with_index {|_, y|
+
+              color = case [x, y]
+                when *INITIAL_PIECES_COORDINATES[:white]; :white
+                when *INITIAL_PIECES_COORDINATES[:black]; :black
+                else :none
+              end
+
+              Reversi::Piece.new(x, y, color)
+            }
+          }
+          self
+        }
+      end
+
+      def create_by_seriarized_board(serialized_board)
+        new.instance_eval {
+          @board = serialized_board.each_slice(BOARD_SIZE).map.with_index {|x_line, x|
+            x_line.map.with_index {|color, y|
+              Reversi::Piece.new(x, y, color)
+            }
+          }
+          self
+        }
+      end
+
       def coordinates_for(location)
         return location[1].to_i - 1, location[0].ord - Y_LINE_CHAR_BASE
-      end
-    end
-
-    def initialize(serialized_board = nil)
-      @board = if serialized_board # XXX ぅぅぅ…
-        serialized_board.each_slice(BOARD_SIZE).map.with_index {|x_line, x|
-          x_line.map.with_index {|color, y|
-            Reversi::Piece.new(x, y, color)
-          }
-        }
-      else
-        Array.new(BOARD_SIZE, nil).map.with_index {|_, x|
-          BOARD_SIZE.times.map.with_index {|_, y|
-
-            color = case [x, y]
-              when *PIECE_COORDINATES_WHEN_STARTED[:white]; :white
-              when *PIECE_COORDINATES_WHEN_STARTED[:black]; :black
-              else :none
-            end
-
-            Reversi::Piece.new(x, y, color)
-          }
-        }
       end
     end
 
@@ -97,7 +105,7 @@ module Reversi
     end
 
     def deep_copy
-      Board.new(self.serialize)
+      Board.create_by_seriarized_board(self.serialize)
     end
 
     def search_movable_pieces_for(color)
