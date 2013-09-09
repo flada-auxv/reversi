@@ -5,8 +5,6 @@ module Reversi
   class Board
     include Enumerable
 
-    attr_accessor :board
-
     BOARD_SIZE = 8
     BOARD_INDEX_RANGE = (0..7)
 
