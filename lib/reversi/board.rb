@@ -58,9 +58,9 @@ module Reversi
     end
 
     def each(&block)
-      @board.flatten.each_with_object([]) do |piece, res|
-        res << block.call(piece) if block_given?
-      end
+      base = @board.flatten.each
+
+      block_given? ? base.with_object([]) {|piece, res| res << block.call(piece) } : base
     end
 
     def [](location)
