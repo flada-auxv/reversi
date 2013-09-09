@@ -1,0 +1,7 @@
+language: ruby
+rvm:
+  - 2.0.0
+bundler_args: "--without development"
+notifications:
+  webhooks:
+    - https://idobata.io/hook/16f6c5f5-325f-44d3-bde4-c17b387d7758
