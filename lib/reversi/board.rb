@@ -35,9 +35,9 @@ module Reversi
       end
     end
 
-    def initialize(pieces_color = nil)
-      @board = if pieces_color # XXX ぅぅぅ…
-        pieces_color.each_slice(BOARD_SIZE).map.with_index {|x_line, x|
+    def initialize(serialized_board = nil)
+      @board = if serialized_board # XXX ぅぅぅ…
+        serialized_board.each_slice(BOARD_SIZE).map.with_index {|x_line, x|
           x_line.map.with_index {|color, y|
             Reversi::Piece.new(x, y, color)
           }
