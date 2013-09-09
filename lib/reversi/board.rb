@@ -34,14 +34,7 @@ module Reversi
         new.instance_eval {
           @board = Array.new(BOARD_SIZE, nil).map.with_index {|_, x|
             BOARD_SIZE.times.map.with_index {|_, y|
-
-              color = case [x, y]
-                when *INITIAL_PIECES_COORDINATES[:white]; :white
-                when *INITIAL_PIECES_COORDINATES[:black]; :black
-                else :none
-              end
-
-              Reversi::Piece.new(x, y, color)
+              Reversi::Piece.new(x, y, lookup_color_by_coordinates(x, y))
             }
           }
           self
@@ -149,6 +142,14 @@ module Reversi
       else
         return nil unless (next_piece = next_piece_for(piece, dir))
         search_for_straight_line(next_piece, current_color, dir, candidates << piece)
+      end
+    end
+
+    def lookup_color_by_coordinates(x, y)
+      case [x, y]
+        when *INITIAL_PIECES_COORDINATES[:white]; :white
+        when *INITIAL_PIECES_COORDINATES[:black]; :black
+        else :none
       end
     end
   end
