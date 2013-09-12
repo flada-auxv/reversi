@@ -117,8 +117,8 @@ module Reversi
         lineno = (i / Reversi::Board::BOARD_SIZE) + 1
 
         sio << lineno if x_idx == 0
-
         sio << '|'
+
         case piece.color
         when :none; sio << ' '
         when :black; sio << "\e[32mb\e[m"
