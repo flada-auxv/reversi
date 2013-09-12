@@ -1,3 +1,4 @@
+require 'yaml'
 require_relative 'rule'
 require_relative 'turn_table'
 require_relative 'io_supporter'
